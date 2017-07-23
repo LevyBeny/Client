@@ -81,8 +81,8 @@ app.controller('loginController', ['UserService', "$window", "$location",
 app.controller('registerController', ['DataService', "$window", "$location", "$http",
     function (DataService, $window, $location, $http) {
         var self = this;
+        self.data=DataService;
 
-        var a='a';
         // user's details
         self.user = {};
         self.user.userName = "";
