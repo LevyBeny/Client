@@ -11,6 +11,5 @@
                 //throw new Error('Not a valid scale');
             }
             return convertedValue;
-
         };
     }]);

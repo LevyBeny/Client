@@ -1,0 +1,146 @@
+body{
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+    background: url("../resources/bg_2.jpg");
+    background-size: cover;
+}
+
+a{
+    color:black;
+}
+
+#div_login{
+    height:100%;
+    width:100%;
+}
+
+#div_navbar{
+    background: url("../Resources/watch5.png");
+    background-size: 100px, 100px;
+    background-repeat: no-repeat;
+    background-position-x: 0%;
+    position: absolute;
+    top: 0;
+    height: 25%;
+    width: 100%;
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+}
+
+.title{
+    position: absolute;
+    font-family: 'Abril Fatface', cursive;
+    color: black;
+}
+
+/* Title Labels */
+#lbl_title1{
+    font-size: 59px;
+    left: 7%;
+}
+
+#lbl_title2{
+    font-size: 42px;
+    left: 18%;
+    top:33%;
+}
+
+#lbl_title3{
+    top:2%;
+    left: 20%;
+    font-size: 67px;
+}
+
+/* The menu different buttons styling */
+#div_menu{
+    position: absolute;
+    border-radius: 10%;
+    width:600px;
+    left:42%;
+    top:32%;
+}
+
+.menu_divs{
+    align-items: flex-start;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: transparent;
+    position: relative;
+    color: black;
+    height:50%;
+    width:21%;
+    display: inline-block;
+    border-radius: 10%;
+    padding: 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: darkslategray;
+}
+
+
+.menu_buttons{
+    position: relative;
+    left:0%;
+    top:28%;
+    transform:translate(-50%,-50%);
+}
+
+.menu_divs:hover{
+    cursor: pointer;
+}
+
+.menu_divs{
+    display: inline-block;
+}
+
+/* Cart  */
+#div_cart
+{
+    position: absolute;
+    right:12%;
+}
+
+
+#div_brandsMenu{
+    visibility: hidden;
+    width:30px;
+    height:30px;
+    background-color: blue;
+}
+
+/* Register and login */
+#div_registerLogin{
+    position: absolute;
+     right:4%;
+     top:7%;
+ }
+
+
+#div_registerLogin a{
+    display:block;
+    margin-top: 3%;
+    margin-bottom: 2%;
+}
+
+#div_registerLogin label:hover{
+    cursor:pointer;
+
+}
+
+#div_mainView{
+    position: absolute;
+
+    width:100%;
+    height:80%;
+    top: 20%;
+
+}
+
+footer{
+    position: absolute;
+    height:5%;
+    width: 100%;
+    bottom: 0%;
+}

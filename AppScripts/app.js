@@ -1,7 +1,30 @@
 ﻿(function () {
     'use strict';
 
-    var app = angular.module('ShopModule', []);
+    var app = angular.module('ShopModule', ['ngRoute']);
+
+
+    app.config(['$locationProvider', function($locationProvider){
+        $locationProvider.hashPrefix('');
+    }]);
+
+    app.config(['$routeProvider',function($routeProvider) {
+        $routeProvider
+            .when("/", {
+                templateUrl : "main.html",
+                controller : "mainController"
+            })
+            .when("/login", {
+                templateUrl : "login.html",
+                controller: "loginController"
+            })
+            .when("/register", {
+                templateUrl : "register.html"
+            })
+            .when("/cart", {
+                templateUrl : "cart.html"
+            });
+    }]);
     //insert your key in APPID after registration
     app.controller('mainController', ['$http', 'temperatureFilter', function ($http, temperatureFilter) {
         var vm = this;
@@ -43,38 +66,25 @@
         };
     });
 
-
-
-
-    var register_textBoxes = [
-        {
-            name: 'First Name',
-        },
-        {
-            name: 'Last Name',
-        },
-        {
-            name: 'Madrid',
-            country: 'Spain',
-            population: '3,141,992',
-            description: 'Madrid , is a south-western European city, the capital of Spain, and the largest municipality of the Community of Madrid. The population of the city is almost 3.2 million with ametropolitan area population of around 6.5 million. It is the third-largest city in the European Union, after Londonand Berlin, and its metropolitan area is the third-largest in the European Union after London and Paris. The city spans a total of 604.3 km2 (233.3 sq mi).',
-            images: [
-              "images/madrid.jpg",
-            ],
-            reviews: [{
-                stars: 5,
-                body: "I think i'll visit there again",
-                author: "hasidi@post.bgu.ac.il",
-                createdOn: "13.6.15"
-
-            }, {
-                stars: 3,
-                body: "bla bla",
-                author: "bla@bla.com",
-                createdOn: "13.6.15"
-            }]
-        }
-
-    ];
+    app.controller('loginController', ['$http', function($http) {
+    var userStatus = {};
+    userStatus.isLoggedIn = false;
+    userStatus.login = function(user) {
+        return $http.post('/login', user)
+            .then(function(res) {
+                var token = res.data.token;
+                $http.defaults.headers.common = {
+                    'my-Token': token,
+                    'user' : user.UserName
+                };
+                userStatus.isLoggedIn = true;
+                return Promise.resolve(res);
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
+            });
+    };
+    return userStatus;
+    }]);
 
 })();

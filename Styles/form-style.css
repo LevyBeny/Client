@@ -1,0 +1,79 @@
+.form{
+    position: absolute;
+    display: block;
+    top: 30%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background: rgba(153, 153, 255, 0.05);
+    padding: 2%;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px #888888;
+}
+
+.form-line{
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+.form-header{
+    font-family: 'Work Sans', sans-serif;
+    text-align: center;
+    font-size: 300%;
+    margin-top: 0;
+    margin-bottom: 7%;
+    margin-left: 0;
+    margin-right: 0;
+    
+}
+
+.form-input{
+    border: 1px solid black;
+    height: 125%;
+    font-size:120%;
+    width: 100%;
+}
+
+.form-error{
+    position: relative;
+    left: 10%;
+    font-weight: bold;
+    position: relative;
+    font-size: 60%;
+    color: red
+}
+
+.form-label{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.form-button{
+    font-family: 'Work Sans', sans-serif;
+    position: relative;
+    left: 50%;
+    transform:translateX(-50%);
+    font-size: 120%;
+    padding: 2%;
+}
+.form-button:hover{
+    cursor: pointer;
+}
+
+#forgotPassword{
+    margin: 0;
+    color: blue;
+    position: relative;
+    left: 32%;
+}
+
+#forgotPassword:hover{
+    cursor: pointer;
+}
+
+#login-fail{
+    text-align: center;
+    font-size: 100%;
+    color: red
+}

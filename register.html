@@ -1,0 +1,153 @@
+<div id="div_register" ng-controller="registerController as registerCtrl">
+    <div class="form">
+        <h1 class="form-header">Registration</h1>
+        <form name="registerForm" ng-submit="registerCtrl.register()"> 
+
+            <!-- user Name -->
+            <div class="form-line">
+                <label class="form-label" for="userNameInput">User Name:</label>
+                <input type="text" ng-model="registerCtrl.user.userName" class="form-input" name="userNameInput" placeholder="user name"
+                    ng-minlength=3 ng-maxlength=8 alpha-numeric required>
+            </div>
+
+            <div ng-messages="registerForm.userNameInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="alphaNumeric">Invalid signs. All characters should be a-z/A-Z/0-9</div>
+            </div>
+
+            <!-- password -->
+            <div class="form-line">
+                <label class="form-label" for="passwordInput">Password:</label>
+                <input type="password" ng-model="registerCtrl.user.password" ng-required="true" class="form-input" name="passwordInput" placeholder="password"
+                    ng-minlength=5 ng-maxlength=10 letters-only required>
+            </div>
+
+            <div ng-messages="registerForm.passwordInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z</div>
+            </div>
+
+            <!-- first name -->
+            <div class="form-line">
+                <label class="form-label" for="firstNameInput">First name:</label>
+                <input type="text" ng-model="registerCtrl.user.firstName" ng-required="true" class="form-input" name="firstNameInput" placeholder="first name"
+                    ng-minlength=2 ng-maxlength=20 letters-only required>
+            </div>
+
+            <div ng-messages="registerForm.firstNameInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z</div>
+            </div>
+
+            <!-- last name -->
+            <div class="form-line">
+                <label class="form-label" for="lastNameInput">Last Name:</label>
+                <input type="text" ng-model="registerCtrl.user.lastName" ng-required="true" class="form-input" name="lastNameInput" placeholder="last name"
+                    ng-minlength=2 ng-maxlength=20 letters-only required>
+            </div>
+
+            <div ng-messages="registerCtrl.lastNameInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z</div>
+            </div>
+
+            <!-- birth date -->
+            <div class="form-line">
+                <label class="form-label" for="birthDateInput">Date:</label>
+                <input type="date" ng-model="registerCtrl.user.birthDate" ng-required="true" class="form-input" name="birthDateInput" placeholder="yyyy-MM-dd"
+                    min="1900-01-01" max="2013-12-31" required>
+            </div>
+
+            <div ng-messages="registerCtrl.birthDateInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a date</div>
+            </div>
+
+            <!-- address -->
+            <div class="form-line">
+                <label class="form-label" for="addressInput">Address:</label>
+                <input type="text" ng-model="registerCtrl.user._address" ng-required="true" class="form-input" name="addressInput" placeholder="Address"
+                    ng-minlength=2 ng-maxlength=50 alpha-numeric required>
+            </div>
+
+            <div ng-messages="registerCtrl.addressInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="alphaNumeric">Invalid signs. All characters should be a-z/A-Z/0-9</div>
+            </div>
+
+            <!-- city -->
+            <div class="form-line">
+                <label class="form-label" for="cityInput">City:</label>
+                <input type="text" ng-model="registerCtrl.user.city" ng-required="true" class="form-input" name="cityInput" placeholder="City"
+                    ng-minlength=2 ng-maxlength=50 letters-only required>
+            </div>
+
+            <div ng-messages="registerCtrl.cityInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z/0-9</div>
+            </div>
+
+
+            <!-- phone -->
+            <div class="form-line">
+                <label class="form-label" for="phoneInput">Phone:</label>
+                <input type="number" ng-model="registerCtrl.user.phone" ng-required="true" class="form-input" name="phoneInput" placeholder="phone number"
+                    ng-minlength=9 ng-maxlength=50 numeric required>
+            </div>
+
+            <div ng-messages="registerCtrl.phoneInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="minlength">Your field is too short</div>
+                <div ng-message="maxlength">Your field is too long</div>
+                <div ng-message="numeric">Invalid signs. All characters should be 0-9</div>
+            </div>
+
+            <!-- mail -->
+            <div class="form-line">
+                <label class="form-label" for="mailInput">E-mail:</label>
+                <input type="email" ng-model="registerCtrl.user.mail" ng-required="true" class="form-input" name="maiInput" placeholder="E-mail">
+            </div>
+
+            <div ng-messages="registerCtrl.mailInput.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+                <div ng-message="email">Please enter a valid email address</div>
+            </div>
+
+            <div class="form-line">
+                <label for="question1Select">Question 1:</label>
+                <select ng-model="registerCtrl.userQuestions.q1_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                    required></select>
+            </div>
+
+            <div ng-messages="registerCtrl.question1Select.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+            </div>
+
+            <div class="form-line">
+                <label for="question2Select">Question 2:</label>
+                <select ng-model="registerCtrl.userQuestions.q2_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                    required></select>
+            </div>
+
+            <div ng-messages="registerCtrl.question2Select.$error" style="color:maroon" role="alert">
+                <div ng-message="required">You did not enter a field</div>
+            </div>
+
+            <div class="form-line">
+                <input type="submit" class="form-button" value="Login" ng-disabled="loginForm.$invalid">
+            </div>
+        </form>
+
+    </div>
+</div>
