@@ -1,7 +1,7 @@
 <div id="div_register" ng-controller="registerController as registerCtrl">
     <div class="form">
         <h1 class="form-header">Registration</h1>
-        <form name="registerForm" ng-submit="registerCtrl.register()"> 
+        <form name="registerForm" ng-submit="registerCtrl.register()">
 
             <!-- user Name -->
             <div class="form-line">
@@ -124,9 +124,10 @@
                 <div ng-message="email">Please enter a valid email address</div>
             </div>
 
+            <!-- questions -->
             <div class="form-line">
                 <label for="question1Select">Question 1:</label>
-                <select ng-model="registerCtrl.userQuestions.q1_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                <select ng-init="registerCtrl.data.questions[0]" ng-model="registerCtrl.userQuestions.q1_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
                     required></select>
             </div>
 
@@ -136,7 +137,7 @@
 
             <div class="form-line">
                 <label for="question2Select">Question 2:</label>
-                <select ng-model="registerCtrl.userQuestions.q2_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                <select  ng-init="registerCtrl.data.questions[1]" ng-model="registerCtrl.userQuestions.q2_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
                     required></select>
             </div>
 
