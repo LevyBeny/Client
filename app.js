@@ -100,10 +100,10 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
 
         // user's restore Q&A
         self.userQuestions = {};
-        self.q1_id = "";
-        self.ans1 = "";
-        self.q2_id = "";
-        self.ans2 = "";
+        self.userQuestions.q1_id = "Please select a question";
+        self.userQuestions.ans1 = "";
+        self.userQuestions.q2_id = "Please select a question";
+        self.userQuestions.ans2 = "";
 
         // user's categories
         self.userCategories = {};

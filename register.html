@@ -127,8 +127,10 @@
             <!-- questions -->
             <div class="form-line">
                 <label for="question1Select">Question 1:</label>
-                <select ng-init="registerCtrl.data.questions[0]" ng-model="registerCtrl.userQuestions.q1_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
-                    required></select>
+                <select ng-init="registerCtrl.userQuestions.q1_id" ng-model="registerCtrl.userQuestions.q1_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                    required>
+                    <option value="?" selected="selected">Please choose a question </option>
+                    </select>
             </div>
 
             <div ng-messages="registerCtrl.question1Select.$error" style="color:maroon" role="alert">
@@ -137,8 +139,10 @@
 
             <div class="form-line">
                 <label for="question2Select">Question 2:</label>
-                <select  ng-init="registerCtrl.data.questions[1]" ng-model="registerCtrl.userQuestions.q2_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
-                    required></select>
+                <select  ng-model="registerCtrl.userQuestions.q2_id" name="question1Select" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                    required>
+                    <option value="?" selected="selected">Please choose a question </option>
+                    </select>
             </div>
 
             <div ng-messages="registerCtrl.question2Select.$error" style="color:maroon" role="alert">
@@ -146,7 +150,7 @@
             </div>
 
             <div class="form-line">
-                <input type="submit" class="form-button" value="Login" ng-disabled="loginForm.$invalid">
+                <input type="submit" class="form-button" value="Register" ng-disabled="registerForm.$invalid">
             </div>
         </form>
 
