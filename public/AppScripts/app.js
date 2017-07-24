@@ -24,30 +24,6 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-
-app.factory('DataService', ['$http', '$window', function ($http, $window) {
-    var service = {};
-    service.countries = [];
-    service.questions = [];
-    service.categories = [];
-    $http.get('/getRestoreQuestions').then(function (res) {
-        service.questions = res.data;
-        $http.get('/getCategories').then(function (res) {
-            service.categories = res.data;
-        },
-            function (err) {
-                $window.alert('Something went wrong...Please try again.');
-            });
-
-    },
-        function (err) {
-            $window.alert('Something went wrong...Please try again.');
-        });
-
-    return service;
-}]);
-
-
 app.controller('mainController', ['$http', 'UserService',
     function ($http, UserService) {
         var vm = this;
@@ -226,6 +202,29 @@ app.factory('UserService', ['$http',
         };
         return service;
     }]);
+
+
+app.factory('DataService', ['$http', '$window', function ($http, $window) {
+    var service = {};
+    service.countries = [];
+    service.questions = [];
+    service.categories = [];
+    $http.get('/getRestoreQuestions').then(function (res) {
+        service.questions = res.data;
+        $http.get('/getCategories').then(function (res) {
+            service.categories = res.data;
+        },
+            function (err) {
+                $window.alert('Something went wrong...Please try again.');
+            });
+
+    },
+        function (err) {
+            $window.alert('Something went wrong...Please try again.');
+        });
+
+    return service;
+}]);
 
 app.directive('alphaNumeric', function () {
     return {
