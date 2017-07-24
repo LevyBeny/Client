@@ -8,19 +8,19 @@ app.config(['$locationProvider', function ($locationProvider) {
 app.config(['$routeProvider', function ($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "main.html"
+            templateUrl: "./views/main.html"
         })
         .when("/login", {
-            templateUrl: "login.html"
+            templateUrl: "./views/login.html"
         })
         .when("/register", {
-            templateUrl: "register.html"
+            templateUrl: "./views/register.html"
         })
         .when("/cart", {
-            templateUrl: "cart.html"
+            templateUrl: "./views/cart.html"
         })
         .when("/forgotPassword", {
-            templateUrl: "forgotPassword.html"
+            templateUrl: "./views/forgotPassword.html"
         });
 }]);
 
