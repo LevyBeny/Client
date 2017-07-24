@@ -51,7 +51,15 @@ app.factory('DataService', ['$http', '$window', function ($http, $window) {
 app.controller('mainController', ['$http', 'UserService',
     function ($http, UserService) {
         var vm = this;
+        var products=[];
+        $http.get('/getTop5Products').then(function(res){
+            products=res.data;
+        }),
+            function(err){
+                $window.alert("Something went wrong with our Database. Please try again later.");
+        }
         vm.UserService = UserService;
+        
     }]);
 
 app.controller('loginController', ['UserService', "$window", "$location",
