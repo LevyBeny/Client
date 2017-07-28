@@ -33,7 +33,7 @@ app.post('/restorePassword',user); //
 app.get('/getRestorePasswordQuestions/:userName',user); //
 app.get('/getRestoreQuestions',user); //
 app.post('/removeUser',user); //
-app.post('/logged/updateCart',user); //
+app.post('/updateCart',user); //
 //-------------------------------------------------------------------------------------------------------------------
 
 //---Product---------------------------------------------------------------------------------------------------------

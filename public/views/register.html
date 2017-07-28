@@ -127,7 +127,7 @@
             <!-- questions -->
             <div class="form-line">
                 <label for="question1Select">Question 1:</label>
-                <select ng-model="registerCtrl.userQuestions.q1_id" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID"
+                <select ng-model="registerCtrl.userQuestions.q1_id" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID | noQuestionRepeat:registerCtrl.userQuestions.q2_id "
                     required> </select>
             </div>
 
