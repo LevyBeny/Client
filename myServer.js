@@ -37,18 +37,6 @@ var user = require("./routes/user");
 var product= require("./routes/product");
 var purchase= require("./routes/purchase");
 
-<<<<<<< HEAD
-//---User------------------------------------------------------------------------------------------------------------
-app.post('/register', user); //
-app.post('/login', user); //
-app.get('/getUserCart/:userName',user); //
-app.post('/restorePassword',user); //
-app.get('/getRestorePasswordQuestions/:userName',user); //
-app.get('/getRestoreQuestions',user); //
-app.post('/removeUser',user); //
-app.post('/updateCart',user); //
-//-------------------------------------------------------------------------------------------------------------------
-=======
 app.use('/user/', user);
 app.use('/product/', product);
 app.use('/purchase/', purchase);
@@ -63,7 +51,6 @@ app.use('/purchase/', purchase);
 // app.post('/removeUser',user); //
 // app.post('/logged/updateCart',user); //
 // //-------------------------------------------------------------------------------------------------------------------
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
 
 // //---Product---------------------------------------------------------------------------------------------------------
 // app.get('/getAllProducts',product); //

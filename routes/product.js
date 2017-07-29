@@ -23,9 +23,11 @@ router.post('/userCartProducts', function(req,res){
    for (var i = 0; i < cart.length; i++) {
        query+="productID ="+ cart[i].productID;
        if(i<cart.length-1)
+   {
         query+= " OR ";
    }
-    query+=";";
+   }
+    query+=" ORDER BY productID;";
     DButilsAzure.Select(query).then(function(result){
         res.send(result);
     }).catch(function(err){
