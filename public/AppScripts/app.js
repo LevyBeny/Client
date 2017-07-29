@@ -1,4 +1,4 @@
-﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages']);
+﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule']);
 
 app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
@@ -23,13 +23,19 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
+<<<<<<< HEAD
 app.controller('mainController', ['$http', 'UserService', 'CartService',
     function ($http, UserService, CartService) {
+=======
+app.controller('mainController', ['$http', 'UserService', 'cartService',
+    function ($http, UserService, cartService) {
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         var vm = this;
         vm.products = [];
         vm.productsUri = [];
         vm.cartService = CartService;
         vm.addToCart = vm.cartService.addToCart;
+<<<<<<< HEAD
         vm.UserService = UserService;
         $http.get('/product/getTop5Products').then(function (res) {
             vm.products = res.data;
@@ -37,6 +43,14 @@ app.controller('mainController', ['$http', 'UserService', 'CartService',
             function (err) {
                 $window.alert("Something went wrong with our Database. Please try again later.");
             }
+=======
+        $http.get('/getTop5Products').then(function (res) {
+            vm.products = res.data;
+        }), function (err) {
+            $window.alert("Something went wrong with our Database. Please try again later.");
+        }
+        vm.UserService = UserService;
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
     }]);
 
 app.controller('loginController', ['UserService', "$window", "$location",
@@ -206,30 +220,55 @@ app.controller('forgotController', ["$http", "$window", "$location",
 /***************************** Services *****************************/
 
 
+<<<<<<< HEAD
 app.factory('UserService', ['$http','CartService',
     function ($http,CartService) {
+=======
+app.factory('UserService', ['$http', 'CartService', 'localStorageService',
+    function ($http, CartService, localStorageService) {
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         var service = {};
         service.user = {};
         service.isLoggedIn = false;
+        service.lastLogin = {};
+        service.initUser = function () {
+            if (localStorageService.cookie.isSupported) {
+                var user = localStorageService.cookie.get('user');
+                if (user) {
+                    service.user.userName = user.userName;
+                    service.lastLogin = user.lastLogin;
+
+                    $http.defaults.headers.common = {
+                        'my-Token': user.token,
+                        'userName': user.userName
+                    };
+                    service.isLoggedIn = true;
+                    //update the cookie
+                    var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
+                    localStorageService.cookie.set('user', cookie);
+                    CartService.getUserCart(service.user.userName);
+                }
+            }
+        }
+        service.initUser();
         service.login = function (user) {
             return $http.post('/user/login', user)
                 .then(function (response) {
                     if (response.data == "fail")
                         return Promise.resolve(response);
                     var token = response.data.token;
-                    $http.defaults.headers.common = {
-                        'my-Token': token,
-                        'userName': user.username
-                    };
-                    service.isLoggedIn = true;
                     service.user = response.data.user;
+<<<<<<< HEAD
                     CartService.getUserCart(service.user.userName);
+=======
+                    service.initUser();
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
                     return Promise.resolve(response);
                 })
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-        };
+        }
         return service;
     }]);
 
@@ -368,15 +407,27 @@ app.directive('lettersOnly', function () {
 app.controller('cartController', ["$http", "$window", "CartService",
     function ($http, $window, cartService) {
         var self = this;
+<<<<<<< HEAD
         self.cartService = CartService;
         self.userName = CartService.UserService.user.userName;
 
 
+=======
+        self.userName = cartService.UserService.user.userName;
+        self.cartService = cartService;
+        $http.get('/getUserCart/' + self.userName).then(function (result) {
+            self.cartService.cartProducts = result;
+        },
+            function (error) {
+                window.alert("Something went wrong with your cart, please try again.");
+            });
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
 
     }]);
 
 app.factory('CartService', ['$http', '$window', function ($http, $window) {
     var service = {};
+<<<<<<< HEAD
 
     service.cart = [];
     service.userName = "";
@@ -397,6 +448,16 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             var tmpProduct = service.cart[i];
             if (tmpProduct.productID = product.productID)
                 return i;
+=======
+    service.cartProducts = [];
+    service.productsData = [];
+    service.iteratedProducts = []; 
+    service.UserService = UserService;
+    service.addToCart = function (product) {
+        if (service.UserService.isLoggedIn == false) {
+            window.alert("To start shopping please login first!")
+            return;
+>>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         }
         return -1;
     }
