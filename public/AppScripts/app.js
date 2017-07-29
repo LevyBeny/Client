@@ -23,6 +23,7 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
+<<<<<<< HEAD
 app.controller('mainController', ['$http', 'UserService', 'cartService',
     function ($http, UserService, cartService) {
         var vm = this;
@@ -32,13 +33,27 @@ app.controller('mainController', ['$http', 'UserService', 'cartService',
         vm.addToCart = vm.cartService.addToCart;
         $http.get('/getTop5Products').then(function (res) {
             vm.products = res.data;
+=======
+/***************************** Controllers *****************************/
+
+app.controller('mainController', ['$http', 'UserService',
+    function ($http, UserService) {
+        var vm = this;
+        var products = [];
+        $http.get('/product/getTop5Products').then(function (res) {
+            products = res.data;
+>>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
         }),
             function (err) {
                 $window.alert("Something went wrong with our Database. Please try again later.");
             }
         vm.UserService = UserService;
 
+<<<<<<< HEAD
     }]);
+=======
+}]);
+>>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
 
 app.controller('loginController', ['UserService', "$window", "$location",
     function (UserService, $window, $location) {
@@ -62,7 +77,7 @@ app.controller('loginController', ['UserService', "$window", "$location",
                 $window.alert('Something went wrong...Please try again.');
             });
         };
-    }]);
+}]);
 
 app.controller('registerController', ['DataService', "$window", "$location", "$http",
     function (DataService, $window, $location, $http) {
@@ -86,21 +101,15 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
 
         // user's restore Q&A
         self.userQuestions = {};
-        self.userQuestions.q1_id = "Please select a question";
-        self.userQuestions.ans1 = "";
-        self.userQuestions.q2_id = "Please select a question";
-        self.userQuestions.ans2 = "";
+        self.question1 = "";
+        self.ans1 = "";
+        self.question2 = "";
+        self.ans2 = "";
 
         // user's categories
-        self.userCategories = {};
-        self.userCategories.cat1 = "";
-        self.userCategories.cat2 = "";
-        self.userCategories.cat3 = "";
-
-        // data
-        // self.data.categories = DataService.categories;
-        // self.questions = DataService.questions;
-        // self.countries = DataService.countries;
+        self.cat1 = "";
+        self.cat2 = "";
+        self.cat3 = "";
 
         //  errors
         self.errors = {};
@@ -118,9 +127,21 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
             tosend = {};
             tosend.content = [];
             tosend.content[0] = self.user;
-            tosend.content[1] = self.userQuestions;
-            tosend.content[2] = self.userCategories;
-            $http.post('/register', tosend)
+
+            var userQuestions = {};
+            userQuestions.q1_id = self.question1.questionID;
+            userQuestions.ans1 = self.ans1;
+            userQuestions.q2_id = self.question2.questionID;
+            userQuestions.ans2 = self.ans2;
+            tosend.content[1] = userQuestions;
+
+            var categories = {};
+            categories.cat1 = self.cat1.categoryID;
+            categories.cat2 = self.cat2.categoryID;
+            categories.cat3 = self.cat3.categoryID;
+            tosend.content[2] = categories;
+
+            $http.post('/user/register', tosend)
                 .then(function (response) {
                     if (response.data === "success") {
                         $window.alert('Registration Completed Successfully.');
@@ -134,7 +155,7 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-    }]);
+}]);
 
 app.filter('noQuestionRepeat', function () {
     return function (questions, q2ID) {
@@ -160,7 +181,7 @@ app.controller('forgotController', ["$http", "$window", "$location",
         self.answers.a1 = "";
         self.answers.a2 = "";
         self.getQuestions = function () {
-            $http.get('getRestorePasswordQuestions/' + self.userName).then(function (res) {
+            $http.get('/user/getRestorePasswordQuestions/' + self.userName).then(function (res) {
                 if (res.data == "fail") {
                     self.isUserExist = false;
                     self.errorMessage = "Invalid User Name!";
@@ -182,7 +203,7 @@ app.controller('forgotController', ["$http", "$window", "$location",
             toSend.userName = self.userName;
             toSend.ans1 = self.answers.a1;
             toSend.ans2 = self.answers.a2;
-            $http.post('restorePassword/', toSend).then(function (res) {
+            $http.post('/user/restorePassword/', toSend).then(function (res) {
                 if (res.data == "fail") {
                     self.isUserExist = true;
                     self.errorMessage = "At least One Answer Is Invalid!";
@@ -196,7 +217,9 @@ app.controller('forgotController', ["$http", "$window", "$location",
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-    }]);
+}]);
+
+/***************************** Services *****************************/
 
 
 app.factory('UserService', ['$http',
@@ -205,14 +228,14 @@ app.factory('UserService', ['$http',
         service.user = {};
         service.isLoggedIn = false;
         service.login = function (user) {
-            return $http.post('/login', user)
+            return $http.post('/user/login', user)
                 .then(function (response) {
                     if (response.data == "fail")
                         return Promise.resolve(response);
                     var token = response.data.token;
                     $http.defaults.headers.common = {
                         'my-Token': token,
-                        'user': user.username
+                        'userName': user.username
                     };
                     service.isLoggedIn = true;
                     service.user = response.data.user;
@@ -223,17 +246,32 @@ app.factory('UserService', ['$http',
                 });
         };
         return service;
-    }]);
-
+}]);
 
 app.factory('DataService', ['$http', '$window', function ($http, $window) {
     var service = {};
+
     service.countries = [];
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var i;
+            var xmlDoc = xmlhttp.responseXML;
+            var temp = [];
+            var x = xmlDoc.getElementsByTagName("Country");
+            for (i = 0; i < x.length; i++) {
+                service.countries.push(x[i].getElementsByTagName("Name")[0].childNodes[0].nodeValue.toString());
+            }
+        }
+    };
+    xmlhttp.open("GET", "./Resources/countries.xml", true);
+    xmlhttp.send();
+
     service.questions = [];
     service.categories = [];
-    $http.get('/getRestoreQuestions').then(function (res) {
+    $http.get('/user/getRestoreQuestions').then(function (res) {
         service.questions = res.data;
-        $http.get('/getCategories').then(function (res) {
+        $http.get('/product/getCategories').then(function (res) {
             service.categories = res.data;
         },
             function (err) {
@@ -247,6 +285,40 @@ app.factory('DataService', ['$http', '$window', function ($http, $window) {
 
     return service;
 }]);
+
+/***************************** Filters *****************************/
+
+app.filter('diffQuestion', function () {
+    return function (input, q) {
+        if (q == "") {
+            return input;
+        }
+        var result = [];
+        for (var i = 0; i < input.length; i++) {
+            if (input[i].questionID != q.questionID) {
+                result.push(input[i]);
+            }
+        }
+        return result;
+    };
+});
+
+app.filter('diffCategory', function () {
+    return function (input, categories) {
+        if (categories[0] == '' && categories[1] == '') {
+            return input;
+        }
+        var result = [];
+        for (var i = 0; i < input.length; i++) {
+            if (input[i].categoryID != categories[0].categoryID && input[i].categoryID != categories[1].categoryID) {
+                result.push(input[i]);
+            }
+        }
+        return result;
+    };
+});
+
+/***************************** Directives *****************************/
 
 app.directive('alphaNumeric', function () {
     return {

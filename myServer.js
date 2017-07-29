@@ -12,7 +12,7 @@ app.locals.token=0;
 app.locals.users={};
 
 
-// All functions of logged in user needs to be in the same route
+// // All functions of logged sholud check if logged in
 // app.use('/logged/', function (req, res, next) {
 //   if(!checkLogin(req))
 //     res.send("login required")
@@ -20,11 +20,24 @@ app.locals.users={};
 //     next()
 // })
 
+// function checkLogin(req) {
+//     var token = req.headers["my-token"];
+//     var userName = req.headers["userName"];
+//     if (!token || !userName)
+//         return false;
+//     var validToken = req.app.locals.users[userName];
+//     if (validToken == token)
+//         return true;
+//     else
+//         return false;
+// }
+
 //router requires
 var user = require("./routes/user");
 var product= require("./routes/product");
 var purchase= require("./routes/purchase");
 
+<<<<<<< HEAD
 //---User------------------------------------------------------------------------------------------------------------
 app.post('/register', user); //
 app.post('/login', user); //
@@ -35,29 +48,45 @@ app.get('/getRestoreQuestions',user); //
 app.post('/removeUser',user); //
 app.post('/updateCart',user); //
 //-------------------------------------------------------------------------------------------------------------------
+=======
+app.use('/user/', user);
+app.use('/product/', product);
+app.use('/purchase/', purchase);
 
-//---Product---------------------------------------------------------------------------------------------------------
-app.get('/getAllProducts',product); //
-app.get('/getCategories',product); //
-app.get('/getProductsByCategory/:categoryID',product); //
-app.get('/getProductByID/:productID',product); //
-app.get('/getTop5Products',product); //
-app.get('/findProduct/:productName',product); //
-app.get('/get5NewestProducts',product); //
-app.post('/addProduct',product); //
-app.get('/getProductsByColor/:color', product);//
-app.get('/getProductsByBrand/:brand', product);//
-app.get('/getRecommendedProductsByUsers/:userName',product); //
-app.get('/getRecommendedProductsByCategories/:userName',product); //
-app.post('/removeProduct',product); //
-//-------------------------------------------------------------------------------------------------------------------
+// //---User------------------------------------------------------------------------------------------------------------
+// app.post('/user/register', user); //
+// app.post('/user/login', user); //
+// app.get('/getUserCart/:userName',user); //
+// app.post('/restorePassword',user); //
+// app.get('/getRestorePasswordQuestions/:userName',user); //
+// app.get('/getRestoreQuestions',user); //
+// app.post('/removeUser',user); //
+// app.post('/logged/updateCart',user); //
+// //-------------------------------------------------------------------------------------------------------------------
+>>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
 
-//---Purchase--------------------------------------------------------------------------------------------------------
-app.post('/purchase',purchase); //
-app.get('/getUserPurchases/:userName',purchase); //
-app.get('/getPurchasedProducts/:purchaseID',purchase); //
-app.get('/getCurrency', purchase); //
-//-------------------------------------------------------------------------------------------------------------------
+// //---Product---------------------------------------------------------------------------------------------------------
+// app.get('/getAllProducts',product); //
+// app.get('/getCategories',product); //
+// app.get('/getProductsByCategory/:categoryID',product); //
+// app.get('/getProductByID/:productID',product); //
+// app.get('/getTop5Products',product); //
+// app.get('/findProduct/:productName',product); //
+// app.get('/get5NewestProducts',product); //
+// app.post('/addProduct',product); //
+// app.get('/getProductsByColor/:color', product);//
+// app.get('/getProductsByBrand/:brand', product);//
+// app.get('/getRecommendedProductsByUsers/:userName',product); //
+// app.get('/getRecommendedProductsByCategories/:userName',product); //
+// app.post('/removeProduct',product); //
+// //-------------------------------------------------------------------------------------------------------------------
+
+// //---Purchase--------------------------------------------------------------------------------------------------------
+// app.post('/purchase',purchase); //
+// app.get('/getUserPurchases/:userName',purchase); //
+// app.get('/getPurchasedProducts/:purchaseID',purchase); //
+// app.get('/getCurrency', purchase); //
+// //-------------------------------------------------------------------------------------------------------------------
 
 var port = 4000;
 app.listen(port, function () {
