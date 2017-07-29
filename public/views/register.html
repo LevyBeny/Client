@@ -138,17 +138,12 @@
             <!-- questions -->
             <div class="form-line">
                 <label for="question1Select">Question 1:</label>
-<<<<<<< HEAD
-                <select ng-model="registerCtrl.userQuestions.q1_id" ng-options="option as option.question for option in registerCtrl.data.questions track by option.questionID | noQuestionRepeat:registerCtrl.userQuestions.q2_id "
-                    required> </select>
-=======
                 <select name="question1Select" ng-model="registerCtrl.question1" 
                 ng-options="option as option.question for option in registerCtrl.data.questions | diffQuestion:registerCtrl.question2"
                     ng-required="true"> </select>
             </div>
             <div ng-messages="registerForm.question1Select.$error" style="color:maroon" role="alert">
                 <div ng-message="required">You did not choose a question</div>
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
             </div>
 
            <div class="form-line">

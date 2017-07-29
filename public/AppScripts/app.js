@@ -206,13 +206,8 @@ app.controller('forgotController', ["$http", "$window", "$location",
 /***************************** Services *****************************/
 
 
-<<<<<<< HEAD
-app.factory('UserService', ['$http','CartService',
-    function ($http,CartService) {
-=======
 app.factory('UserService', ['$http', 'CartService', 'localStorageService',
     function ($http, CartService, localStorageService) {
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         var service = {};
         service.user = {};
         service.isLoggedIn = false;
@@ -244,11 +239,10 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
                         return Promise.resolve(response);
                     var token = response.data.token;
                     service.user = response.data.user;
-<<<<<<< HEAD
-                    CartService.getUserCart(service.user.userName);
-=======
+                    //update the cookie
+                    var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
+                    localStorageService.cookie.set('user', cookie);
                     service.initUser();
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
                     return Promise.resolve(response);
                 })
                 .catch(function (e) {
