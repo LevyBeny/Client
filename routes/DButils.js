@@ -50,7 +50,7 @@ exports.Select = function (query) {
                 console.log('request Completed: ' + dbReq.rowCount + ' row(s) returned');
                 console.log(ans);
                 connection.close();
-                resolve(ans);
+                resolve(ans);   
 
             });
             connection.execSql(dbReq);

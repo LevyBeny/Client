@@ -17,6 +17,22 @@ router.get('/getAllProducts', function (req, res) {
     });
 });
 
+router.post('/userCartProducts', function(req,res){
+    var cart=req.body;
+    var query="SELECT * FROM products WHERE ";
+   for (var i = 0; i < cart.length; i++) {
+       query+="productID ="+ cart[i].productID;
+       if(i<cart.length-1)
+        query+= " OR ";
+   }
+    query+=";";
+    DButilsAzure.Select(query).then(function(result){
+        res.send(result);
+    }).catch(function(err){
+        res.send(err);
+    })
+});
+
 router.get('/getCategories', function (req, res) {
     query = "SELECT * FROM categories ;";
     DButilsAzure.Select(query).then(function (result) {

@@ -1,4 +1,14 @@
 <div id="div_main" ng-controller="mainController as mainCtrl">
     <!-- Implementation of product view -->
-    <img src="smiley.gif"  height="42" width="42">
+    <div ng-repeat="product in mainCtrl.products" class="product">
+        <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic">
+        <div class="product-actions">
+            <div class="info-block">
+                <div class="product-title">{{product.productName}}</div>
+                <div class="product-description">{{product.brand}}</div>
+                <div class="product-prize">Price:{{product.price}} NIS</div>
+                <div class="add" ng-click="mainCtrl.addToCart(product)">Add To Cart</div>
+            </div>
+        </div>
+    </div>
 </div>
