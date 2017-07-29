@@ -308,11 +308,17 @@ app.directive('lettersOnly', function () {
     };
 });
 
-app.controller('cartController', ["$http", "$window","cartService",
-    function ($http, $window,cartService) {
+app.controller('cartController', ["$http", "$window", "cartService",
+    function ($http, $window, cartService) {
         var self = this;
-        self.userName=cartService.UserService.user.userName;
-        self.cartService=cartService;
+        self.userName = cartService.UserService.user.userName;
+        self.cartService = cartService;
+        $http.get('/getUserCart/' + self.userName).then(function (result) {
+            self.cartService.cartProducts = result;
+        },
+        function (error) {
+            window.alert("Something went wrong with your cart, please try again.");
+        });
 
     }]);
 
@@ -320,7 +326,7 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
     var service = {};
     service.cartProducts = [];
     service.productsData = [];
-    service.iteratedProducts=[];
+    service.iteratedProducts = [];
     service.UserService = UserService;
     service.addToCart = function (product) {
         if (service.UserService.isLoggedIn == false) {
@@ -329,7 +335,7 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
         }
 
         if (!(service.cartProducts[product.productID])) {
-            service.productsData[product.productID]=product;
+            service.productsData[product.productID] = product;
             service.cartProducts[product.productID] = 1;
         }
         else {
@@ -345,19 +351,18 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
             updatedCart.content[1][i] = {};
             updatedCart.content[1][i].productID = productID;
             updatedCart.content[1][i].quantity = service.cartProducts[productID];
-            var tmpProduct=service.productsData[productID];
-            tmpProduct.quantity=service.cartProducts[productID];
+            var tmpProduct = service.productsData[productID];
+            tmpProduct.quantity = service.cartProducts[productID];
             service.iteratedProducts.push(tmpProduct);
             i++;
         }
-        iteratedProducts=updatedCart;
         $http.post('/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
                 window.alert("Added to cart successfully");
             }
         }).catch(function (err) {
             window.alert(err)
-        })
+        });
     }
     return service;
 }]);

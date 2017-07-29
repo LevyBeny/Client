@@ -1,7 +1,7 @@
 <div id="div_cart" ng-controller="cartController as cartCtrl">
     <div id="div_product" ng-repeat="product in cartCtrl.cartService.iteratedProducts">
         <div>{{product.quantity}}</div>
-        <div>{{product.name}}</div>
+        <div>{{product.brand}} : {{product.productName}}</div>
         <div>{{product.color}}</div>
     </div>
 </div>
