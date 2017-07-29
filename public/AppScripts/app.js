@@ -23,19 +23,13 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-<<<<<<< HEAD
 app.controller('mainController', ['$http', 'UserService', 'CartService',
     function ($http, UserService, CartService) {
-=======
-app.controller('mainController', ['$http', 'UserService', 'cartService',
-    function ($http, UserService, cartService) {
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         var vm = this;
         vm.products = [];
         vm.productsUri = [];
         vm.cartService = CartService;
         vm.addToCart = vm.cartService.addToCart;
-<<<<<<< HEAD
         vm.UserService = UserService;
         $http.get('/product/getTop5Products').then(function (res) {
             vm.products = res.data;
@@ -43,14 +37,6 @@ app.controller('mainController', ['$http', 'UserService', 'cartService',
             function (err) {
                 $window.alert("Something went wrong with our Database. Please try again later.");
             }
-=======
-        $http.get('/getTop5Products').then(function (res) {
-            vm.products = res.data;
-        }), function (err) {
-            $window.alert("Something went wrong with our Database. Please try again later.");
-        }
-        vm.UserService = UserService;
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
     }]);
 
 app.controller('loginController', ['UserService', "$window", "$location",
