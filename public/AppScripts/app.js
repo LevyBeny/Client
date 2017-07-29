@@ -407,27 +407,15 @@ app.directive('lettersOnly', function () {
 app.controller('cartController', ["$http", "$window", "CartService",
     function ($http, $window, cartService) {
         var self = this;
-<<<<<<< HEAD
         self.cartService = CartService;
         self.userName = CartService.UserService.user.userName;
 
 
-=======
-        self.userName = cartService.UserService.user.userName;
-        self.cartService = cartService;
-        $http.get('/getUserCart/' + self.userName).then(function (result) {
-            self.cartService.cartProducts = result;
-        },
-            function (error) {
-                window.alert("Something went wrong with your cart, please try again.");
-            });
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
 
     }]);
 
 app.factory('CartService', ['$http', '$window', function ($http, $window) {
     var service = {};
-<<<<<<< HEAD
 
     service.cart = [];
     service.userName = "";
@@ -448,16 +436,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             var tmpProduct = service.cart[i];
             if (tmpProduct.productID = product.productID)
                 return i;
-=======
-    service.cartProducts = [];
-    service.productsData = [];
-    service.iteratedProducts = []; 
-    service.UserService = UserService;
-    service.addToCart = function (product) {
-        if (service.UserService.isLoggedIn == false) {
-            window.alert("To start shopping please login first!")
-            return;
->>>>>>> b7b2b0ada01a2182dc51fe87a5dc09b7a48768ff
         }
         return -1;
     }
