@@ -97,7 +97,7 @@ router.post('/login', function (req, res) {
 
 router.get('/getUserCart/:userName', function (req, res) {
     var userName = req.params.userName;
-    var query = "SELECT * FROM usersCurrentCart WHERE userName = '" + userName + "' ;";
+    var query = "SELECT * FROM usersCurrentCart WHERE userName = '" + userName + "' ORDER BY productID;";
     DButilsAzure.Select(query).then(function (result) {
         res.send(result);
     }).catch(function (err) {
