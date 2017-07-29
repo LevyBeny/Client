@@ -380,6 +380,9 @@ app.directive('lettersOnly', function () {
     };
 });
 
+<<<<<<< HEAD
+/***************************** end *****************************/
+=======
 app.controller('cartController', ["$http", "$window", "cartService",
     function ($http, $window, cartService) {
         var self = this;
@@ -438,3 +441,4 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
     }
     return service;
 }]);
+>>>>>>> 343787128dbf6a84cdfe14e4b16db3648028ec0e
