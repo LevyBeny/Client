@@ -7,7 +7,7 @@
                 <div class="product-title">{{product.productName}}</div>
                 <div class="product-description">{{product.brand}}</div>
                 <div class="product-prize">Price:{{product.price}} NIS</div>
-                <div class="add" ng-click="mainCtrl.addToCart(product)">Add To Cart</div>
+                <div class="add" ng-click="mainCtrl.addToCart(product)" ng-show="mainCtrl.UserService.isLoggedIn">Add To Cart</div>
             </div>
         </div>
     </div>

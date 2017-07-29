@@ -23,37 +23,21 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-<<<<<<< HEAD
-app.controller('mainController', ['$http', 'UserService', 'cartService',
-    function ($http, UserService, cartService) {
+app.controller('mainController', ['$http', 'UserService', 'CartService',
+    function ($http, UserService, CartService) {
         var vm = this;
         vm.products = [];
         vm.productsUri = [];
-        vm.cartService = cartService;
+        vm.cartService = CartService;
         vm.addToCart = vm.cartService.addToCart;
-        $http.get('/getTop5Products').then(function (res) {
-            vm.products = res.data;
-=======
-/***************************** Controllers *****************************/
-
-app.controller('mainController', ['$http', 'UserService',
-    function ($http, UserService) {
-        var vm = this;
-        var products = [];
+        vm.UserService = UserService;
         $http.get('/product/getTop5Products').then(function (res) {
-            products = res.data;
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
+            vm.products = res.data;
         }),
             function (err) {
                 $window.alert("Something went wrong with our Database. Please try again later.");
             }
-        vm.UserService = UserService;
-
-<<<<<<< HEAD
     }]);
-=======
-}]);
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
 
 app.controller('loginController', ['UserService', "$window", "$location",
     function (UserService, $window, $location) {
@@ -77,7 +61,7 @@ app.controller('loginController', ['UserService', "$window", "$location",
                 $window.alert('Something went wrong...Please try again.');
             });
         };
-}]);
+    }]);
 
 app.controller('registerController', ['DataService', "$window", "$location", "$http",
     function (DataService, $window, $location, $http) {
@@ -155,7 +139,7 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-}]);
+    }]);
 
 app.filter('noQuestionRepeat', function () {
     return function (questions, q2ID) {
@@ -217,13 +201,13 @@ app.controller('forgotController', ["$http", "$window", "$location",
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-}]);
+    }]);
 
 /***************************** Services *****************************/
 
 
-app.factory('UserService', ['$http',
-    function ($http) {
+app.factory('UserService', ['$http','CartService',
+    function ($http,CartService) {
         var service = {};
         service.user = {};
         service.isLoggedIn = false;
@@ -239,6 +223,7 @@ app.factory('UserService', ['$http',
                     };
                     service.isLoggedIn = true;
                     service.user = response.data.user;
+                    CartService.getUserCart(service.user.userName);
                     return Promise.resolve(response);
                 })
                 .catch(function (e) {
@@ -246,7 +231,7 @@ app.factory('UserService', ['$http',
                 });
         };
         return service;
-}]);
+    }]);
 
 app.factory('DataService', ['$http', '$window', function ($http, $window) {
     var service = {};
@@ -380,58 +365,77 @@ app.directive('lettersOnly', function () {
     };
 });
 
-<<<<<<< HEAD
-/***************************** end *****************************/
-=======
-app.controller('cartController', ["$http", "$window", "cartService",
+app.controller('cartController', ["$http", "$window", "CartService",
     function ($http, $window, cartService) {
         var self = this;
-        self.userName = cartService.UserService.user.userName;
-        self.cartService = cartService;
-        $http.get('/getUserCart/' + self.userName).then(function (result) {
-            self.cartService.cartProducts = result;
-        },
-        function (error) {
-            window.alert("Something went wrong with your cart, please try again.");
-        });
+        self.cartService = CartService;
+        self.userName = CartService.UserService.user.userName;
+
+
 
     }]);
 
-app.factory('cartService', ['$http', '$window', 'UserService', function ($http, $window, UserService) {
+app.factory('CartService', ['$http', '$window', function ($http, $window) {
     var service = {};
-    service.cartProducts = [];
-    service.productsData = [];
-    service.iteratedProducts = [];
-    service.UserService = UserService;
-    service.addToCart = function (product) {
-        if (service.UserService.isLoggedIn == false) {
-            window.alert("To start shopping please login first!")
-            return;
-        }
 
-        if (!(service.cartProducts[product.productID])) {
-            service.productsData[product.productID] = product;
-            service.cartProducts[product.productID] = 1;
+    service.cart = [];
+    service.userName = "";
+
+    service.getUserCart = function (userName) {
+        service.userName = userName;
+        $http.get('/user/getUserCart/' + self.userName).then(function (userCartResult) {
+            service.cart = userCartResult.data;
+        },
+            function (error) {
+                window.alert("Something went wrong with your cart, please try again.");
+            });
+    }
+
+    service.getProductIndex = function (product) {
+
+        for (var i = 0; i < service.cart.length; i++) {
+            var tmpProduct = service.cart[i];
+            if (tmpProduct.productID = product.productID)
+                return i;
+        }
+        return -1;
+    }
+
+    service.addToCart = function (product) {
+        var index = service.getProductIndex(product);
+        var tmpProduct = {};
+        if (index == -1) {
+            tmpProduct = product;
+            if (product.quantity == 0) {
+                window.alert("Product currently out of stock!")
+            }
+            else {
+                tmpProduct.buyQuantity = 1;
+                service.cart.push(tmpProduct);
+            }
         }
         else {
-            service.cartProducts[product.productID] += 1;
+            if (service.cart[index].buyQuantity + 1 > product.quantity) {
+                window.alert("No more units of this product in stock.\n Contact our customer service for making special reservation.")
+            }
+            else {
+                service.cart[index].buyQuantity++;
+            }
         }
         var updatedCart = {};
         updatedCart.content = [];
         updatedCart.content[0] = {}
         updatedCart.content[1] = [];
-        updatedCart.content[0].userName = UserService.user.userName;
-        var i = 0;
-        for (productID in service.cartProducts) {
+        updatedCart.content[0].userName = service.userName;
+
+        for (var i = 0; i < service.cart.length; i++) {
+            var tmpProduct = service.cart[i];
             updatedCart.content[1][i] = {};
-            updatedCart.content[1][i].productID = productID;
-            updatedCart.content[1][i].quantity = service.cartProducts[productID];
-            var tmpProduct = service.productsData[productID];
-            tmpProduct.quantity = service.cartProducts[productID];
-            service.iteratedProducts.push(tmpProduct);
-            i++;
+            updatedCart.content[1][i].productID = tmpProduct.productID;
+            updatedCart.content[1][i].quantity = tmpProduct.buyQuantity;
         }
-        $http.post('/updateCart', updatedCart).then(function (result) {
+
+        $http.post('/user/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
                 window.alert("Added to cart successfully");
             }
@@ -441,4 +445,3 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
     }
     return service;
 }]);
->>>>>>> 343787128dbf6a84cdfe14e4b16db3648028ec0e
