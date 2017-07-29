@@ -1,4 +1,4 @@
-﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages']);
+﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule']);
 
 app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
@@ -23,7 +23,6 @@ app.config(['$routeProvider', function ($routeProvider) {
         });
 }]);
 
-<<<<<<< HEAD
 app.controller('mainController', ['$http', 'UserService', 'cartService',
     function ($http, UserService, cartService) {
         var vm = this;
@@ -33,27 +32,11 @@ app.controller('mainController', ['$http', 'UserService', 'cartService',
         vm.addToCart = vm.cartService.addToCart;
         $http.get('/getTop5Products').then(function (res) {
             vm.products = res.data;
-=======
-/***************************** Controllers *****************************/
-
-app.controller('mainController', ['$http', 'UserService',
-    function ($http, UserService) {
-        var vm = this;
-        var products = [];
-        $http.get('/product/getTop5Products').then(function (res) {
-            products = res.data;
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
-        }),
-            function (err) {
-                $window.alert("Something went wrong with our Database. Please try again later.");
-            }
+        }), function (err) {
+            $window.alert("Something went wrong with our Database. Please try again later.");
+        }
         vm.UserService = UserService;
-
-<<<<<<< HEAD
     }]);
-=======
-}]);
->>>>>>> d7ecb087a09c585c503d05c9f49e26d66898abf1
 
 app.controller('loginController', ['UserService', "$window", "$location",
     function (UserService, $window, $location) {
@@ -77,7 +60,7 @@ app.controller('loginController', ['UserService', "$window", "$location",
                 $window.alert('Something went wrong...Please try again.');
             });
         };
-}]);
+    }]);
 
 app.controller('registerController', ['DataService', "$window", "$location", "$http",
     function (DataService, $window, $location, $http) {
@@ -155,7 +138,7 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-}]);
+    }]);
 
 app.filter('noQuestionRepeat', function () {
     return function (questions, q2ID) {
@@ -217,36 +200,53 @@ app.controller('forgotController', ["$http", "$window", "$location",
                     $window.alert('Something went wrong...Please try again.');
                 });
         };
-}]);
+    }]);
 
 /***************************** Services *****************************/
 
 
-app.factory('UserService', ['$http',
-    function ($http) {
+app.factory('UserService', ['$http', 'CartService', 'localStorageService',
+    function ($http, CartService, localStorageService) {
         var service = {};
         service.user = {};
         service.isLoggedIn = false;
+        service.lastLogin = {};
+        service.initUser = function () {
+            if (localStorageService.cookie.isSupported) {
+                var user = localStorageService.cookie.get('user');
+                if (user) {
+                    service.user.userName = user.userName;
+                    service.lastLogin = user.lastLogin;
+
+                    $http.defaults.headers.common = {
+                        'my-Token': user.token,
+                        'userName': user.userName
+                    };
+                    service.isLoggedIn = true;
+                    //update the cookie
+                    var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
+                    localStorageService.cookie.set('user', cookie);
+                    CartService.getUserCart(service.user.userName);
+                }
+            }
+        }
+        service.initUser();
         service.login = function (user) {
             return $http.post('/user/login', user)
                 .then(function (response) {
                     if (response.data == "fail")
                         return Promise.resolve(response);
                     var token = response.data.token;
-                    $http.defaults.headers.common = {
-                        'my-Token': token,
-                        'userName': user.username
-                    };
-                    service.isLoggedIn = true;
                     service.user = response.data.user;
+                    service.initUser();
                     return Promise.resolve(response);
                 })
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-        };
+        }
         return service;
-}]);
+    }]);
 
 app.factory('DataService', ['$http', '$window', function ($http, $window) {
     var service = {};
@@ -380,10 +380,7 @@ app.directive('lettersOnly', function () {
     };
 });
 
-<<<<<<< HEAD
-/***************************** end *****************************/
-=======
-app.controller('cartController', ["$http", "$window", "cartService",
+app.controller('cartController', ["$http", "$window", "CartService",
     function ($http, $window, cartService) {
         var self = this;
         self.userName = cartService.UserService.user.userName;
@@ -391,17 +388,17 @@ app.controller('cartController', ["$http", "$window", "cartService",
         $http.get('/getUserCart/' + self.userName).then(function (result) {
             self.cartService.cartProducts = result;
         },
-        function (error) {
-            window.alert("Something went wrong with your cart, please try again.");
-        });
+            function (error) {
+                window.alert("Something went wrong with your cart, please try again.");
+            });
 
     }]);
 
-app.factory('cartService', ['$http', '$window', 'UserService', function ($http, $window, UserService) {
+app.factory('CartService', ['$http', '$window', function ($http, $window) {
     var service = {};
     service.cartProducts = [];
     service.productsData = [];
-    service.iteratedProducts = [];
+    service.iteratedProducts = []; 
     service.UserService = UserService;
     service.addToCart = function (product) {
         if (service.UserService.isLoggedIn == false) {
@@ -441,4 +438,3 @@ app.factory('cartService', ['$http', '$window', 'UserService', function ($http, 
     }
     return service;
 }]);
->>>>>>> 343787128dbf6a84cdfe14e4b16db3648028ec0e
