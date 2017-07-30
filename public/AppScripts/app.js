@@ -239,6 +239,8 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
                         return Promise.resolve(response);
                     var token = response.data.token;
                     service.user = response.data.user;
+                    var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
+                    localStorageService.cookie.set('user', cookie);
                     service.initUser();
                     return Promise.resolve(response);
                 })

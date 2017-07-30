@@ -3,7 +3,7 @@ body{
     border: 0px;
     padding: 0px;
     /* background-color: white; */
-     background: url("../resources/bg_1.jpg"); 
+     background: url("../resources/bg1.jpg"); 
     background-size: cover;
 }
 
@@ -17,14 +17,14 @@ a{
 }
 
 #div_navbar{
-    background: url("../Resources/watch5.png");
+     background: url("../Resources/watch1.jpg");
     background-size: 100px, 100px;
     background-repeat: no-repeat;
-    background-position-x: 0%;
+    background-position-x: 0%; 
     position: absolute;
     top: 0;
     height: 25%;
-    width: 100%;
+    width: 100%;    
     margin: 0px;
     border: 0px;
     padding: 0px;
@@ -32,35 +32,23 @@ a{
 
 .title{
     position: absolute;
-    font-family: 'Abril Fatface', cursive;
+font-family: 'Slabo 27px', serif;
     color: black;
 }
 
 /* Title Labels */
 #lbl_title1{
     font-size: 59px;
-    left: 7%;
-}
-
-#lbl_title2{
-    font-size: 42px;
-    left: 18%;
-    top:33%;
-}
-
-#lbl_title3{
-    top:2%;
-    left: 20%;
-    font-size: 67px;
+    top:15%;
+    left: 9%;
 }
 
 /* The menu different buttons styling */
 #div_menu{
     position: absolute;
-    border-radius: 10%;
-    width:600px;
-    left:42%;
-    top:32%;
+    border-radius: 10%; 
+    left:38%;
+    top:24%;
 }
 
 .menu_divs{
@@ -68,13 +56,15 @@ a{
     box-sizing: border-box;
     text-align: center;
     background-color: transparent;
-    font-family: 'Abril Fatface', cursive;
+font-family: 'Slabo 27px', serif;
     position: relative;
     color: black;
-    height:50%;
-    width:22%;
+    width:130px;
+    height:40px;
+    top: 0;
+    left: 15%;
     display: inline-block;
-    border-radius: 5px;
+    border-radius: 7px;
     padding: 4px;
     border-style: solid;
     border-width: 1px;
