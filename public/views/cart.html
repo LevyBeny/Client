@@ -1,7 +1,7 @@
 <div id="div_cart" ng-controller="cartController as cartCtrl">
-    <div id="div_product" ng-repeat="product in cartCtrl.CartService.cart">
+    <span id="div_product" ng-repeat="product in cartCtrl.CartService.cart">
         <div>{{product.buyQuantity}}</div>
         <div>{{product.brand}} : {{product.productName}}</div>
         <div>{{product.color}}</div>
-    </div>
+    </span>
 </div>
