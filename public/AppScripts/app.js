@@ -239,10 +239,7 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
                         return Promise.resolve(response);
                     var token = response.data.token;
                     service.user = response.data.user;
-<<<<<<< HEAD
                     //update the cookie
-=======
->>>>>>> 7c02bb399f477e42f042e65e24d748188621e59e
                     var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
                     localStorageService.cookie.set('user', cookie);
                     service.initUser();
