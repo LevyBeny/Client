@@ -35,36 +35,48 @@ router.post('/register', function (req, res) {
     var cat2 = req.body.content[2].cat2;
     var cat3 = req.body.content[2].cat3;
 
-    userQuery = "INSERT INTO users VALUES ('" + userName + "','" + firstName + "', '" + lastName + "', '" + country + "', '" + city + "', '" + _address + "', '" + birthDate + "', '" + password + "', '" + mail + "', '" + phone + "', " + isAdmin + ");";
-    DButilsAzure.Insert(userQuery).then(function (userRes) {
-        questionQuery = "INSERT INTO usersQuestions VALUES (" + q1_id + ", '" + userName + "', '" + ans1 + "'); INSERT INTO usersQuestions VALUES (" + q2_id + ", '" + userName + "', '" + ans2 + "');"
-        DButilsAzure.Insert(questionQuery).then(function (questionRes) {
-            categoryQuery = "INSERT INTO usersCategories VALUES(" + cat1 + ", '" + userName + "') ; ";
-            categoryQuery += "INSERT INTO usersCategories VALUES(" + cat2 + ", '" + userName + "') ; ";
-            categoryQuery += "INSERT INTO usersCategories VALUES(" + cat3 + ", '" + userName + "') ; ";
-            DButilsAzure.Insert(categoryQuery).then(function (catRes) {
-                res.send("success");
-            }).catch(function (catErr) {
-                deleteQuery = "DELETE FROM users WHERE userName = '" + userName + "'  ;";
-                deleteQuery += "DELETE FROM usersQuestions WHERE userName = '" + userName + "'  ;";
-                DButilsAzure.Delete(deleteQuery).then(function (deleteRes) {
-                    res.send(catErr);
-                }).catch(function (deleteErr) {
-                    res.send(deleteErr);
+    var query = "SELECT * FROM users WHERE userName = '" + userName + "' ;";
+    DButilsAzure.Select(query).then(function (existRes) {
+        if (existRes.length > 0) {
+            res.send("exists");
+        }
+        else {
+            var userQuery = "INSERT INTO users VALUES ('" + userName + "','" + firstName + "', '" + lastName + "', '" + country + "', '" + city + "', '" + _address + "', '" + birthDate + "', '" + password + "', '" + mail + "', '" + phone + "', " + isAdmin + ");";
+            DButilsAzure.Insert(userQuery).then(function (userRes) {
+                questionQuery = "INSERT INTO usersQuestions VALUES (" + q1_id + ", '" + userName + "', '" + ans1 + "'); INSERT INTO usersQuestions VALUES (" + q2_id + ", '" + userName + "', '" + ans2 + "');"
+                DButilsAzure.Insert(questionQuery).then(function (questionRes) {
+                    categoryQuery = "INSERT INTO usersCategories VALUES(" + cat1 + ", '" + userName + "') ; ";
+                    categoryQuery += "INSERT INTO usersCategories VALUES(" + cat2 + ", '" + userName + "') ; ";
+                    categoryQuery += "INSERT INTO usersCategories VALUES(" + cat3 + ", '" + userName + "') ; ";
+                    DButilsAzure.Insert(categoryQuery).then(function (catRes) {
+                        res.send("success");
+                    }).catch(function (catErr) {
+                        deleteQuery = "DELETE FROM users WHERE userName = '" + userName + "'  ;";
+                        deleteQuery += "DELETE FROM usersQuestions WHERE userName = '" + userName + "'  ;";
+                        DButilsAzure.Delete(deleteQuery).then(function (deleteRes) {
+                            res.send(catErr);
+                        }).catch(function (deleteErr) {
+                            res.send(deleteErr);
+                        });
+                    });
+                }).catch(function (questionErr) {
+                    deleteQuery = "DELETE FROM users WHERE userName = '" + userName + "'  ;";
+                    DButilsAzure.Delete(deleteQuery).then(function (deleteRes) {
+                        res.send(questionErr);
+                    }).catch(function (deleteErr) {
+                        res.send(deleteErr);
+                    });
                 });
+            }).catch(function (userError) {
+                res.send(userError);
             });
-        }).catch(function (questionErr) {
-            deleteQuery = "DELETE FROM users WHERE userName = '" + userName + "'  ;";
-            DButilsAzure.Delete(deleteQuery).then(function (deleteRes) {
-                res.send(questionErr);
-            }).catch(function (deleteErr) {
-                res.send(deleteErr);
-            });
-        });
-    }).catch(function (userError) {
-        res.send(userError);
-    });
+        }
+    }).catch(function (err) {
+        res.send(err);
+     });
+
 });
+
 
 router.post('/login', function (req, res) {
     var userName = req.body.userName;
@@ -72,19 +84,19 @@ router.post('/login', function (req, res) {
     query = "SELECT * FROM users WHERE userName = '" + userName + "' AND password = '" + password + "' ;";
     DButilsAzure.Select(query).then(function (result) {
         if (result.length == 1) {
-            if(res.app.locals.users.hasOwnProperty(userName)){
-                toSend={};
-                toSend.token=res.app.locals.users[userName];
-                toSend.user=result[0];
+            if (res.app.locals.users.hasOwnProperty(userName)) {
+                toSend = {};
+                toSend.token = res.app.locals.users[userName];
+                toSend.user = result[0];
                 res.send(toSend);
                 return;
             }
             var token = res.app.locals.token;
             res.app.locals.token++;
             res.app.locals.users[userName] = token;
-            toSend={};
-            toSend.token=token;
-            toSend.user=result[0];
+            toSend = {};
+            toSend.token = token;
+            toSend.user = result[0];
             res.send(toSend);
         }
         else {
@@ -172,9 +184,9 @@ router.post('/updateCart', function (req, res) {
     }
     var deleteQuery = "DELETE FROM usersCurrentCart WHERE userName = '" + userName + "' ;";
     DButilsAzure.Delete(deleteQuery).then(function (delRes) {
-        var insertQuery="";
+        var insertQuery = "";
         for (var index = 0; index < cart.length; index++) {
-            insertQuery += "INSERT INTO usersCurrentCart VALUES ('" + userName + "', " + cart[index].productID + ", " +cart[index].quantity  + ") ;";
+            insertQuery += "INSERT INTO usersCurrentCart VALUES ('" + userName + "', " + cart[index].productID + ", " + cart[index].quantity + ") ;";
         }
         DButilsAzure.Insert(insertQuery).then(function (insertRes) {
             res.send("success");

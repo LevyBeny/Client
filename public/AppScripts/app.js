@@ -113,9 +113,9 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
             tosend.content[0] = self.user;
 
             var userQuestions = {};
-            userQuestions.q1_id = self.question1.questionID;
+            userQuestions.q1 = self.question1.questionID;
             userQuestions.ans1 = self.ans1;
-            userQuestions.q2_id = self.question2.questionID;
+            userQuestions.q2 = self.question2.questionID;
             userQuestions.ans2 = self.ans2;
             tosend.content[1] = userQuestions;
 
@@ -131,7 +131,10 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                         $window.alert('Registration Completed Successfully.');
                         $location.path("/login");
                     }
-                    else {
+                    else if (response.data === "exists") {
+                        $window.alert('The user name you entered already exist! \n Please enter another.');
+                    }
+                    else{
                         $window.alert('Something went wrong...Please try again.');
                     }
                 })
@@ -402,7 +405,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
     service.getUserCart = function (userName) {
         service.userName = userName;
-        $http.get('/user/getUserCart/' + self.userName).then(function (userCartResult) {
+        $http.get('/user/getUserCart/' + userName).then(function (userCartResult) {
             service.cart = userCartResult.data;
         },
             function (error) {
@@ -414,7 +417,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         for (var i = 0; i < service.cart.length; i++) {
             var tmpProduct = service.cart[i];
-            if (tmpProduct.productID = product.productID)
+            if (tmpProduct.productID == product.productID)
                 return i;
         }
         return -1;
