@@ -1,7 +1,6 @@
 #cart_container{
-    position:absolute;
-    top:10%;
-    left:10%;
+    position:relative;
+    margin: 0 auto;
     color:black;
     text-align: center;
 font-family: 'Poppins', sans-serif;
@@ -28,13 +27,16 @@ border-collapse: collapse;
     border: 0px;
     margin:0px;
 }
+#cart_table th{
+    min-width: 120px;
+}
 
-tr:nth-child(even) {background-color: #f2f2f2}
+#cart_table tr:nth-child(even) {background-color: #f2f2f2}
 
-tr:nth-child(odd) {background-color: white}
+#cart_table tr:nth-child(odd) {background-color: white}
 
 
-table{
+#cart_table{
     border-collapse: collapse;
 }
 
@@ -58,4 +60,10 @@ table{
     height:auto;
     font-family: 'Poppins', sans-serif;
     font-size: 12px;
+}
+
+#empty-cart-label{
+    font-size: 4em;
+    width:auto;
+    margin:0 auto;
 }

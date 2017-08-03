@@ -1,5 +1,6 @@
 <div id="cart_container" ng-controller="cartController as cartCtrl">
-    <table>
+    <label id="empty-cart-label" ng-show="cartCtrl.cartService.cart.length==0">Cart is Empty</label>
+    <table id="cart_table" ng-show="cartCtrl.cartService.cart.length!=0">
         <tr>
             <th></th>
             <th>Product</th>

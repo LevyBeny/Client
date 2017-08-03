@@ -5,7 +5,7 @@ height: auto;
 .reg-form{
     position: absolute;
     display: block;
-    top: 33%;
+    top: 35%;
     left:50%;
    transform:translate(-50%,-15%);
    width: 100%;
@@ -74,5 +74,4 @@ box-shadow: 10px 10px 5px #888888;
 }
  .reg-td{
      text-align: center;
-     align-items: left;
  }
