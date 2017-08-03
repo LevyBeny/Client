@@ -1,8 +1,5 @@
 ﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule']);
 
-
-
-
 app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
