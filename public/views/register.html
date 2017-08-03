@@ -226,7 +226,7 @@
                 <tr>
                     <td class="reg-td">
                         <label class="reg-form-label" for="category1Select">Category 1:</label>
-                        <select name="category1Select" ng-model="registerCtrl.cat1" ng-options="option as option.categoryName for option in registerCtrl.data.categories | diffCategory:[registerCtrl.cat2,registerCtrl.cat3]"
+                        <select class="reg-form-input" name="category1Select" ng-model="registerCtrl.cat1" ng-options="option as option.categoryName for option in registerCtrl.data.categories | diffCategory:[registerCtrl.cat2,registerCtrl.cat3]"
                             required>  </select>
 
 
@@ -236,7 +236,7 @@
                     </td>
                     <td class="reg-td">
                         <label class="reg-form-label" for="category2Select">Category 2:</label>
-                        <select name="category2Select" ng-model="registerCtrl.cat2" ng-options="option as option.categoryName for option in registerCtrl.data.categories | diffCategory:[registerCtrl.cat1,registerCtrl.cat3]"
+                        <select class="reg-form-input" name="category2Select" ng-model="registerCtrl.cat2" ng-options="option as option.categoryName for option in registerCtrl.data.categories | diffCategory:[registerCtrl.cat1,registerCtrl.cat3]"
                             required>  </select>
 
 

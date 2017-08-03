@@ -8,30 +8,31 @@ height: auto;
     top: 33%;
     left:50%;
    transform:translate(-50%,-15%);
-   width: 60%;
+   width: 100%;
 }
 
 #registerForm{
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .reg-form-input{
     width: auto;
+    height:1.5em;
+        font-size:1.4em;
 }
 
+
 .reg-form-header{
-    display: table;
-    white-space: nowrap;
     border-bottom: 1px solid brown;
     border-top: 1px solid brown;
-    display: table-cell;
     width: 45%;
     letter-spacing: 3px;
     font: 2em sans-serif;
     text-align: center;
     font-weight: bolder;
     position: relative; 
-    left: 29%;
+    margin: 0 auto;
 
 }
 
@@ -39,15 +40,15 @@ height: auto;
     margin-top: 1%;
     margin-bottom: 2%;
     text-align: center;
-    font: 1.4em sans-serif;
+    font: 1.6em sans-serif;
 }
 
 .reg-form-label{
-font: 0.9em sans-serif;
+font: 1.5em sans-serif;
 }
 
 .reg-form-button{
-font: 1.4em sans-serif;
+font: 1.8em sans-serif;
 border-radius: 10px;
 width: 15%;
 margin-bottom: 5%;
@@ -73,4 +74,5 @@ box-shadow: 10px 10px 5px #888888;
 }
  .reg-td{
      text-align: center;
+     align-items: left;
  }
