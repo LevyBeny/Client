@@ -9,80 +9,62 @@
     <script type="text/javascript" src="Scripts/angular-local-storage.min.js"></script>
 
     <script type="text/javascript" src="AppScripts/app.js"></script>
-    <script type="text/javascript" src="AppScripts/menu.js"></script>
 
-<link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Merriweather|Poppins|Slabo+27px|Work+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface|Merriweather|Poppins|Slabo+27px|Work+Sans" rel="stylesheet">
     <link rel="stylesheet" href="Styles/styles.css">
     <link rel="stylesheet" type="text/css" href="Styles/form-style.css" />
     <link rel="stylesheet" type="text/css" href="Styles/register-style.css" />
     <link rel="stylesheet" type="text/css" href="Styles/productStyle.css" />
-    <link rel="stylesheet" type="text/css" href="Styles/cart_style.css"/>
+    <link rel="stylesheet" type="text/css" href="Styles/cart_style.css" />
 
 </head>
 
 <body>
-<div ng-controller="mainController as mainCtrl">
-    <div id="div_navbar">
-        <label id="lbl_title1" class="title">
-            Time To Watch
-        </label>
+    <div id="div_navbar" ng-controller="mainController as mainCtrl">
+        <label id="lbl_title1" class="title">Time To Watch </label>
         <div id="div_menu">
-            <div class="menu_divs">
-                <a id="button_men" class="menu_buttons" onclick="getMenWatch()">
-                    Home
-                </a>
-            </div>
-            <div class="menu_divs">
-                <a id="button_women" class="menu_buttons" onclick="getWomenWatch()">
-<<<<<<< HEAD
-                    Watch Collection
-=======
-                    About
->>>>>>> 699aecafe388d00f82c510b7a332bb6ef45abdbf
-                </a>
-            </div>
-            <div class="menu_divs">
-                <a id="button_brand" class="menu_buttons" onmouseover="showBrandsMenu(true)" onmouseleave="showBrandsMenu(false)">
-                   Watch Collection
-                </a>
-            </div>
 
+            <div class="menu_divs">
+                <a id="button_men" class="menu_buttons">Home</a>
+            </div>
+            <div class="menu_divs">
+                <a href="" id="button_women" class="menu_buttons"> About</a>
+            </div>
+            <div class="menu_divs">
+                <a id="button_brand" class="menu_buttons">Watch Collection</a>
+            </div>
+        </div>
+
+        <div id="div_registerLogin">
+            <a id="ref_register" href="/#/register" ng-show="!mainCtrl.UserService.isLoggedIn">
+                <label>
+                    Register
+                </label>
+            </a>
+            <a id="ref_login" href="/#/login" ng-show="!mainCtrl.UserService.isLoggedIn">
+                <label>
+                    Login
+                </label>
+            </a>
+            <a id="ref_logout" href="" ng-click="mainCtrl.UserService.logout()" ng-show="mainCtrl.UserService.isLoggedIn">
+                <label>
+                    Logout
+                </label>
+            </a>
+        </div>
+
+        <div id="div_cart">
+            <a id="ref_cart" href="/#/cart" ng-show="mainCtrl.UserService.isLoggedIn">
+            <img border="0" src="Resources/cart.png" width="50" height="50">
+         </a>
         </div>
     </div>
-
-    <div id="div_registerLogin">
-        <a id="ref_register" href="/#/register">
-            <label>
-                Register
-            </label>
-        </a>
-
-        <a id="ref_login" href="/#/login" ng-show="!mainCtrl.UserService.isLoggedIn">
-            <label>
-                Login
-            </label>
-        </a>
-
-        <a id="ref_login" href="/" ng-click="mainCtrl.UserService.logout()" ng-show="mainCtrl.UserService.isLoggedIn">
-            <label>
-                Logout
-            </label>
-        </a>
-
+    <div id="div_mainView" ng-view>
     </div>
-    <div id="div_cart" >
-        <a id="ref_cart" href="/#/cart" ng-show="mainCtrl.UserService.isLoggedIn">
-            <img border="0" src="Resources/cart.png" width="50" height="50">
-        </a>
-    </div>
-</div>
-
-<div id="div_mainView" ng-view>
-</div>
 
 
-<footer>
-</footer>
+    <footer>
+    </footer>
 </body>
 
 </html>

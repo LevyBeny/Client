@@ -220,8 +220,8 @@ app.controller('forgotController', ["$http", "$window", "$location",
 /***************************** Services *****************************/
 
 
-app.factory('UserService', ['$http', 'CartService', 'localStorageService',
-    function ($http, CartService, localStorageService) {
+app.factory('UserService', ['$http', 'CartService', 'localStorageService','$location',
+    function ($http, CartService, localStorageService,$location) {
         var service = {};
         service.user = {};
         service.isLoggedIn = false;
@@ -265,11 +265,12 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
         };
 
         service.logout = function () {
-            localStorageService.cookie.delete('user');
-            isLoggedIn=false;
+            localStorageService.cookie.remove('user');
+            service.isLoggedIn=false;
             CartService.initCart();
             service.user = {};
             service.lastLogin = {};
+            $location.path("/");
         };
 
         return service;
@@ -492,7 +493,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         $http.post('/user/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
-                return Promise.resolve(result);
+               window.alert("Cart was udpdated!");
             }
         }).catch(function (err) {
             window.alert("Something went wrong... please try again!")
@@ -546,8 +547,8 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
         }
 
 
-        var prom = service.updateCart();
-        window.alert("Added to cart succesfully!");
+        service.updateCart();
+        
     }
 
     service.calculateTotalPrices=function(){
