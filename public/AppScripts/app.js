@@ -244,7 +244,7 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
                     CartService.getUserCart(service.user.userName);
                 }
             }
-        }
+        };
         service.initUser();
         service.login = function (user) {
             return $http.post('/user/login', user)
@@ -262,7 +262,16 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService',
                 .catch(function (e) {
                     return Promise.reject(e);
                 });
-        }
+        };
+
+        service.logout = function () {
+            localStorageService.cookie.delete('user');
+            isLoggedIn=false;
+            CartService.initCart();
+            service.user = {};
+            service.lastLogin = {};
+        };
+
         return service;
     }]);
 
@@ -344,11 +353,31 @@ app.directive('alphaNumeric', function () {
         link: function (scope, elem, attr, ngModel) {
 
             var validator = function (value) {
-                if (/^[a-zA-Z0-9]*$/.test(value)) {
+                if (/^[a-zA-Z0-9\s]*$/.test(value)) {
                     ngModel.$setValidity('alphaNumeric', true);
                     return value;
                 } else {
                     ngModel.$setValidity('alphaNumeric', false);
+                    return undefined;
+                }
+            };
+            ngModel.$parsers.unshift(validator);
+            ngModel.$formatters.unshift(validator);
+        }
+    };
+});
+
+app.directive('password', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attr, ngModel) {
+
+            var validator = function (value) {
+                if (/^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$/.test(value)) {
+                    ngModel.$setValidity('password', true);
+                    return value;
+                } else {
+                    ngModel.$setValidity('password', false);
                     return undefined;
                 }
             };
@@ -389,6 +418,26 @@ app.directive('lettersOnly', function () {
                     return value;
                 } else {
                     ngModel.$setValidity('lettersOnly', false);
+                    return undefined;
+                }
+            };
+            ngModel.$parsers.unshift(validator);
+            ngModel.$formatters.unshift(validator);
+        }
+    };
+});
+
+app.directive('letterspaceOnly', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attr, ngModel) {
+
+            var validator = function (value) {
+                if (/^[a-zA-Z\s]*$/.test(value)) {
+                    ngModel.$setValidity('letterspaceOnly', true);
+                    return value;
+                } else {
+                    ngModel.$setValidity('letterspaceOnly', false);
                     return undefined;
                 }
             };

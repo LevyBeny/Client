@@ -27,7 +27,7 @@
                         <!-- password -->
                         <label class="reg-form-label" for="passwordInput">Password:</label>
                         <input type="password" ng-model="registerCtrl.user.password" ng-required="true" class="reg-form-input" name="passwordInput"
-                            ng-minlength=5 ng-maxlength=10 alpha-numeric required>
+                            ng-minlength=5 ng-maxlength=10 alpha-numeric password required>
 
 
                         <div ng-messages="registerForm.passwordInput.$error" ng-if='registerForm.passwordInput.$touched' class="reg-error" role="alert">
@@ -35,6 +35,7 @@
                             <div ng-message="minlength">Your password is too short</div>
                             <div ng-message="maxlength">Your password is too long</div>
                             <div ng-message="alphaNumeric">Invalid signs. All characters should be a-z/A-Z/0-9</div>
+                            <div ng-message="password">Password should contain at least one number and one letter </div>
                         </div>
                     </td>
                 </tr>
@@ -52,14 +53,14 @@
 
                         <label class="reg-form-label" for="firstNameInput">First name:</label>
                         <input type="text" ng-model="registerCtrl.user.firstName" ng-required="true" class="reg-form-input" name="firstNameInput"
-                             ng-minlength=2 ng-maxlength=20 letters-only required>
+                             ng-minlength=2 ng-maxlength=20 letterspace-only required>
 
 
                         <div ng-messages="registerForm.firstNameInput.$error" ng-if="registerForm.firstNameInput.$touched" class="reg-error" role="alert">
                             <div ng-message="required">You did not enter a first name</div>
                             <div ng-message="minlength">Your first name is too short</div>
                             <div ng-message="maxlength">Your first name is too long</div>
-                            <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z</div>
+                            <div ng-message="letterspaceOnly">Invalid signs. All characters should be a-z/A-Z</div>
                         </div>
                     </td>
                     <td class="reg-td">
@@ -67,14 +68,14 @@
 
                         <label class="reg-form-label" for="lastNameInput">Last Name:</label>
                         <input type="text" ng-model="registerCtrl.user.lastName" ng-required="true" class="reg-form-input" name="lastNameInput" 
-                            ng-minlength=2 ng-maxlength=20 letters-only required>
+                            ng-minlength=2 ng-maxlength=20 letterspace-only required>
 
 
                         <div ng-messages="registerForm.lastNameInput.$error" ng-if="registerForm.lastNameInput.$touched" class="reg-error" role="alert">
                             <div ng-message="required">You did not enter a last name</div>
                             <div ng-message="minlength">Your last name is too short</div>
                             <div ng-message="maxlength">Your last name is too long</div>
-                            <div ng-message="lettersOnly">Invalid signs. All characters should be a-z/A-Z</div>
+                            <div ng-message="letterspaceOnly">Invalid signs. All characters should be a-z/A-Z</div>
                         </div>
                     </td>
                 </tr>
@@ -114,7 +115,7 @@
                             ng-required="true">  </select>
 
 
-                        <div ng-messages="registerForm.countrySelect.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.countrySelect.$error" ng-if="registerForm.countrySelect.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a country</div>
                         </div>
                     </td>
@@ -158,7 +159,7 @@
                             ng-minlength=9 ng-maxlength=50 numeric required>
 
 
-                        <div ng-messages="registerForm.phoneInput.$error" ng-if="registerForm.addressInput.$touched" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.phoneInput.$error" ng-if="registerForm.phoneInput.$touched" class="reg-error" role="alert">
                             <div ng-message="required">You did not enter a phone number</div>
                             <div ng-message="minlength">Your phone number is too short</div>
                             <div ng-message="maxlength">Your phone number is too long</div>
@@ -169,7 +170,6 @@
             </table>
 
             <!-- questions -->
-
             <table class="reg-table">
                 <tr>
                     <td colspan="2">
@@ -182,7 +182,7 @@
                         <select class="reg-form-input" name="question1Select" ng-model="registerCtrl.question1" ng-options="option as option.question for option in registerCtrl.data.questions | diffQuestion:registerCtrl.question2"
                             ng-required="true"> </select>
 
-                        <div ng-messages="registerForm.question1Select.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.question1Select.$error" ng-if="registerForm.question1Select.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a question</div>
                         </div>
                     </td>
@@ -201,7 +201,7 @@
                         <select class="reg-form-input" name="question2Select" ng-model="registerCtrl.question2" ng-options="option as option.question for option in registerCtrl.data.questions | diffQuestion:registerCtrl.question1"
                             ng-required="true">  </select>
 
-                        <div ng-messages="registerForm.question2Select.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.question2Select.$error" ng-if="registerForm.question2Select.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a question</div>
                         </div>
                     </td>
@@ -230,7 +230,7 @@
                             required>  </select>
 
 
-                        <div ng-messages="registerForm.category1Select.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.category1Select.$error" ng-if="registerForm.category1Select.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a category</div>
                         </div>
                     </td>
@@ -240,7 +240,7 @@
                             required>  </select>
 
 
-                        <div ng-messages="registerForm.category2Select.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.category2Select.$error" ng-if="registerForm.category2Select.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a category</div>
                         </div>
                     </td>
@@ -250,12 +250,13 @@
                             required>  </select>
 
 
-                        <div ng-messages="registerForm.category3Select.$error" class="reg-error" role="alert">
+                        <div ng-messages="registerForm.category3Select.$error" ng-if="registerForm.category3Select.$touched" class="reg-error" role="alert">
                             <div ng-message="required">Please choose a category</div>
                         </div>
                     </td>
                 </tr>
             </table>
+
             <!-- Submit -->
             <div class="reg-form-line">
                 <input type="submit" class="reg-form-button" value="Register" ng-disabled="registerForm.$invalid">
