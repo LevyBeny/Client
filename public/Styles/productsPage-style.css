@@ -1,0 +1,28 @@
+.product-view{
+    display:inline-block;
+}
+
+.info-block-view {
+  margin-top:0.5px;
+  position: absolute;
+  height:120px;
+  width:200px;
+  margin-left: 15px;
+  background: transparent;
+  top:5px;
+  margin-bottom:0px;
+  z-index: 15; 
+  transition:.7s;
+}
+
+.product-actions-view {
+  background: transparent;
+  overflow: hidden;
+  margin:0px;
+  transition:.7s;
+  -webkit-transition:.7s;
+}
+
+.image-margin{
+    left:36%;
+}

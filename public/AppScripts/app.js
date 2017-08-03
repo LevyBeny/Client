@@ -23,7 +23,11 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/forgotPassword", {
             templateUrl: "./views/forgotPassword.html"
+        })
+        .when("/products", {
+            templateUrl: "./views/products.html"
         });
+
 }]);
 
 app.controller('mainController', ['$http', 'UserService', 'CartService',
@@ -265,8 +269,13 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService','$loca
         };
 
         service.logout = function () {
+<<<<<<< HEAD
             localStorageService.cookie.remove('user');
             service.isLoggedIn=false;
+=======
+            localStorageService.cookie.delete('user');
+            isLoggedIn = false;
+>>>>>>> 5734f7e06221ed29d4fb010db00a5d4640c814f7
             CartService.initCart();
             service.user = {};
             service.lastLogin = {};
@@ -460,8 +469,8 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
     service.cart = [];
     service.userName = "";
 
-    service.initCart = function(){
-        service.cart=[];
+    service.initCart = function () {
+        service.cart = [];
     }
 
     service.removeFromCart = function (index) {
@@ -502,7 +511,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
     service.getUserCart = function (userName) {
         service.userName = userName;
-        
+
         $http.get('/user/getUserCart/' + userName).then(function (userCartResult) {
             service.cart = userCartResult.data;
             service.calculateTotalPrices();
@@ -543,7 +552,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
         }
         else {
             service.cart[index].buyQuantity = service.quantity[index];
-            service.cart[index].totalPrice = service.cart[index].buyQuantity*service.cart[index].price;
+            service.cart[index].totalPrice = service.cart[index].buyQuantity * service.cart[index].price;
         }
 
 
@@ -551,11 +560,11 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
         
     }
 
-    service.calculateTotalPrices=function(){
+    service.calculateTotalPrices = function () {
         for (var index = 0; index < service.cart.length; index++) {
             service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
         }
-        
+
     }
 
     service.addToCart = function (product) {
@@ -590,20 +599,25 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
 
 //Products.html
-app.controller('productController', ['$http', 'ProductService',  function($http, ProductService){
-    var self=this;
-    self.productService=productService;
+app.controller('productController', ['$http', 'ProductService', function ($http, ProductService) {
+    var self = this;
+    self.productService = ProductService;
 }]);
 
-app.factory('ProductService', ['$http',
-    function ($http) {
-        var service=this;
-        service.products=[];
-        $http.get('/product/getTop5Products').then(function (res) {
-            service.products=res;
+app.factory('ProductService', ['$http', 'CartService', 'UserService',
+    function ($http, CartService,UserService) {
+        var service = this;
+        service.products = [];
+        service.userService=UserService;
+        service.cartService = CartService;
+        service.addToCart = function (product) {
+            cartService.addToCart(product);
         }
-        ,function(err){
-            window.alert("Something got wrong. Please refresh the page.");
-        })
+        $http.get('/product/getAllProducts').then(function (res) {
+            service.products = res.data;
+        }
+            , function (err) {
+                window.alert("Something got wrong. Please refresh the page.");
+            })
         return service;
     }]);
