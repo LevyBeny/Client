@@ -1,5 +1,8 @@
 ﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule']);
 
+
+
+
 app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
 }]);
@@ -142,7 +145,7 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                     else if (response.data === "exists") {
                         $window.alert('The user name you entered already exist! \n Please enter another.');
                     }
-                    else{
+                    else {
                         $window.alert('Something went wrong...Please try again.');
                     }
                 })
@@ -407,12 +410,24 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
     service.cart = [];
     service.userName = "";
 
+    service.initCart = function(){
+        service.cart=[];
+    }
+
     service.removeFromCart = function (index) {
         service.cart.splice(index, 1);
         service.updateCart();
     }
 
+    service.calculateTotalSum = function () {
+        service.cart.totalSum = 0;
+        for (var i = 0; i < service.cart.length; i++) {
+            service.cart.totalSum += service.cart[i].totalPrice;
+        }
+    }
+
     service.updateCart = function () {
+        service.calculateTotalSum();
         var updatedCart = {};
         updatedCart.content = [];
         updatedCart.content[0] = {}
@@ -437,8 +452,11 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
     service.getUserCart = function (userName) {
         service.userName = userName;
+        
         $http.get('/user/getUserCart/' + userName).then(function (userCartResult) {
             service.cart = userCartResult.data;
+            service.calculateTotalPrices();
+            service.calculateTotalSum();
         },
             function (error) {
                 window.alert("Something went wrong with your cart, please try again.");
@@ -470,14 +488,24 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
         if (index == -1) {
             tmpProduct = product;
             tmpProduct.buyQuantity = quantity[index];
+            tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
             service.cart.push(tmpProduct);
         }
         else {
             service.cart[index].buyQuantity = service.quantity[index];
+            service.cart[index].totalPrice = service.cart[index].buyQuantity*service.cart[index].price;
         }
+
 
         var prom = service.updateCart();
         window.alert("Added to cart succesfully!");
+    }
+
+    service.calculateTotalPrices=function(){
+        for (var index = 0; index < service.cart.length; index++) {
+            service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
+        }
+        
     }
 
     service.addToCart = function (product) {
@@ -490,6 +518,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             }
             else {
                 tmpProduct.buyQuantity = 1;
+                tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
                 service.cart.push(tmpProduct);
             }
         }
@@ -499,9 +528,32 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             }
             else {
                 service.cart[index].buyQuantity++;
+
+                service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
             }
         }
+        var prom = service.updateCart();
         window.alert("Added to cart succesfully!");
     }
     return service;
 }]);
+
+
+//Products.html
+app.controller('productController', ['$http', 'ProductService',  function($http, ProductService){
+    var self=this;
+    self.productService=productService;
+}]);
+
+app.factory('ProductService', ['$http',
+    function ($http) {
+        var service=this;
+        service.products=[];
+        $http.get('/product/getTop5Products').then(function (res) {
+            service.products=res;
+        }
+        ,function(err){
+            window.alert("Something got wrong. Please refresh the page.");
+        })
+        return service;
+    }]);

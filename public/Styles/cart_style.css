@@ -1,12 +1,16 @@
 #cart_container{
-    position:relative;
-    margin: 0 auto;
+    height:100%;
     color:black;
     text-align: center;
 font-family: 'Poppins', sans-serif;
 border-collapse: collapse;
 }
 
+#cart-middle{
+    position: absolute;
+    width:80%;
+    margin:0 10%;
+}
 
 .cartProduct{
     position:relative;
@@ -16,19 +20,28 @@ border-collapse: collapse;
 }
 
 #cart_container td{ 
-    min-width: 120px;
-    margin:0px;
+    width: 12em;
+    height: 11em;
+    margin:0;
+    padding: 0;
+    border:0;
+}
+
+#cart_container tr{ 
+    margin:0;
+    padding: 0;
+    border:0;
 }
 
 .cart-img{
-    width:200px;
-    height:200px;
-    padding:0px;
-    border: 0px;
-    margin:0px;
+    width:100%;
+    height:100%;
+    padding:0;
+    border: 0;
+    margin:0;
 }
 #cart_table th{
-    min-width: 120px;
+    width: 12em;
 }
 
 #cart_table tr:nth-child(even) {background-color: #f2f2f2}
@@ -66,4 +79,28 @@ border-collapse: collapse;
     font-size: 4em;
     width:auto;
     margin:0 auto;
+}
+
+#td_sum{
+    font-size:1.5em;
+    color:black;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.cart-sum{
+    position:relative;
+    font-size:1.5em;
+    color:black;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.td_transparent{
+    background-color: transparent;
+}
+
+#buy_button{
+    font-size: 1.5em;
+    padding:0.5em;
 }
