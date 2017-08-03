@@ -1,17 +1,19 @@
-#product_container{
-  position:absolute;
+.product_container{
+  position: relative;
   left:6%;
-  top:7%;
-  width:100%;
+}
+
+#newProducts{
+}
+
+#topSeller{
+
 }
 
 .product-label{
-    display: table;
-    white-space: nowrap;
       border-bottom: 1px solid brown;
       border-top: 1px solid brown;
       content: '';
-      display: table-cell;
       position: relative;
       top: 0.5em;
       width: 45%;

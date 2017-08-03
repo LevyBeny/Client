@@ -26,13 +26,21 @@ app.config(['$routeProvider', function ($routeProvider) {
 app.controller('mainController', ['$http', 'UserService', 'CartService',
     function ($http, UserService, CartService) {
         var vm = this;
-        vm.products = [];
+        vm.topProducts = [];
+        vm.newProducts = [];
         vm.productsUri = [];
         vm.cartService = CartService;
         vm.addToCart = vm.cartService.addToCart;
         vm.UserService = UserService;
         $http.get('/product/getTop5Products').then(function (res) {
-            vm.products = res.data;
+            vm.topProducts = res.data;
+        }),
+            function (err) {
+                $window.alert("Something went wrong with our Database. Please try again later.");
+            }
+
+        $http.get('/product/get5NewestProducts').then(function (res) {
+            vm.newProducts = res.data;
         }),
             function (err) {
                 $window.alert("Something went wrong with our Database. Please try again later.");
@@ -385,24 +393,48 @@ app.directive('lettersOnly', function () {
 });
 
 app.controller('cartController', ["$http", "$window", "CartService",
-    function ($http, $window, cartService) {
+    function ($http, $window, CartService) {
         var self = this;
         self.cartService = CartService;
-        self.userName = CartService.UserService.user.userName;
-
-
-
     }]);
 
 app.factory('CartService', ['$http', '$window', function ($http, $window) {
     var service = {};
-
+    service.quantity = [];
     service.cart = [];
     service.userName = "";
 
+    service.removeFromCart = function (index) {
+        service.cart.splice(index, 1);
+        service.updateCart();
+    }
+
+    service.updateCart = function () {
+        var updatedCart = {};
+        updatedCart.content = [];
+        updatedCart.content[0] = {}
+        updatedCart.content[1] = [];
+        updatedCart.content[0].userName = service.userName;
+
+        for (var i = 0; i < service.cart.length; i++) {
+            var tmpProduct = service.cart[i];
+            updatedCart.content[1][i] = {};
+            updatedCart.content[1][i].productID = tmpProduct.productID;
+            updatedCart.content[1][i].quantity = tmpProduct.buyQuantity;
+        }
+
+        $http.post('/user/updateCart', updatedCart).then(function (result) {
+            if (result.data === "success") {
+                return Promise.resolve(result);
+            }
+        }).catch(function (err) {
+            window.alert("Something went wrong... please try again!")
+        });
+    }
+
     service.getUserCart = function (userName) {
         service.userName = userName;
-        $http.get('/user/getUserCart/' + self.userName).then(function (userCartResult) {
+        $http.get('/user/getUserCart/' + userName).then(function (userCartResult) {
             service.cart = userCartResult.data;
         },
             function (error) {
@@ -414,10 +446,35 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         for (var i = 0; i < service.cart.length; i++) {
             var tmpProduct = service.cart[i];
-            if (tmpProduct.productID = product.productID)
+            if (tmpProduct.productID == product.productID)
                 return i;
         }
         return -1;
+    }
+
+    service.setProductQuantity = function (product) {
+        var index = service.getProductIndex(product);
+        var tmpProduct = {};
+        if (product.quantity == 0) {
+            window.alert("Product currently out of stock!")
+            return;
+        }
+        if (service.quantity[index] > product.quantity) {
+            window.alert("Not enough units of this product in stock.\n Contact our customer service for making special reservation.");
+            return;
+        }
+
+        if (index == -1) {
+            tmpProduct = product;
+            tmpProduct.buyQuantity = quantity[index];
+            service.cart.push(tmpProduct);
+        }
+        else {
+            service.cart[index].buyQuantity = service.quantity[index];
+        }
+
+        var prom = service.updateCart();
+        window.alert("Added to cart succesfully!");
     }
 
     service.addToCart = function (product) {
@@ -441,26 +498,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
                 service.cart[index].buyQuantity++;
             }
         }
-        var updatedCart = {};
-        updatedCart.content = [];
-        updatedCart.content[0] = {}
-        updatedCart.content[1] = [];
-        updatedCart.content[0].userName = service.userName;
-
-        for (var i = 0; i < service.cart.length; i++) {
-            var tmpProduct = service.cart[i];
-            updatedCart.content[1][i] = {};
-            updatedCart.content[1][i].productID = tmpProduct.productID;
-            updatedCart.content[1][i].quantity = tmpProduct.buyQuantity;
-        }
-
-        $http.post('/user/updateCart', updatedCart).then(function (result) {
-            if (result.data === "success") {
-                window.alert("Added to cart successfully");
-            }
-        }).catch(function (err) {
-            window.alert(err)
-        });
+        window.alert("Added to cart succesfully!");
     }
     return service;
 }]);

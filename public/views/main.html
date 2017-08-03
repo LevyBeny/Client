@@ -1,9 +1,22 @@
 <div id="div_main" ng-controller="mainController as mainCtrl">
     <!-- Implementation of product view -->
-
-    <div id="product_container">
+    <div class="topSeller product_container">
         <div class="product-label"> Top Sellers </div>
-        <div ng-repeat="product in mainCtrl.products" class="product">
+        <div ng-repeat="product in mainCtrl.topProducts" class="product">
+            <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic">
+            <div class="product-actions">
+                <div class="info-block">
+                    <div class="product-title">{{product.productName}}</div>
+                    <div class="product-description">{{product.brand}}</div>
+                    <div class="product-prize">Price:{{product.price}} NIS</div>
+                    <div class="add" ng-click="mainCtrl.addToCart(product)" ng-show="mainCtrl.UserService.isLoggedIn">Add To Cart</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="newProducts" class="product_container" ng-show="mainCtrl.UserService.isLoggedIn">
+        <div class="product-label"> New In Shop ! </div>
+        <div ng-repeat="product in mainCtrl.newProducts" class="product">
             <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic">
             <div class="product-actions">
                 <div class="info-block">

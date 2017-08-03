@@ -1,7 +1,29 @@
-<div id="div_cart" ng-controller="cartController as cartCtrl">
-    <span id="div_product" ng-repeat="product in cartCtrl.CartService.cart">
-        <div>{{product.buyQuantity}}</div>
-        <div>{{product.brand}} : {{product.productName}}</div>
-        <div>{{product.color}}</div>
-    </span>
+<div id="cart_container" ng-controller="cartController as cartCtrl">
+    <table>
+        <tr>
+            <th></th>
+            <th>Product</th>
+            <th>Color</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Remove from cart</th>
+        </tr>
+        <tr class="cartProduct" ng-repeat="product in cartCtrl.cartService.cart">
+            <div class="cart_td">
+                <td><img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="cart-img"></td>
+                <td>{{product.brand}} - {{product.productName}}</td>
+                <td>{{product.color}}</td>
+                <td>{{product.price}}</td>
+                <td>
+                    <input type="number" placeholder={{product.buyQuantity}} ng-model="cartCtrl.cartService.quantity[$index]" min=1 max=15/>
+                    </br>
+                    <input id="update_quantity" type=button value="Update Quantity" ng-click="cartCtrl.cartService.setProductQuantity(product)"/>
+                </td>
+                <td>{{product.price*product.buyQuantity}} NIS</td>
+                <td><input type="submit" class="remove_button" value="" ng-click="cartCtrl.cartService.removeFromCart($index)" /></br>
+                </td>
+            </div>
+        </tr>
+    </table>
 </div>
