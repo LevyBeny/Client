@@ -266,13 +266,8 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService','$loca
         };
 
         service.logout = function () {
-<<<<<<< HEAD
             localStorageService.cookie.remove('user');
             service.isLoggedIn=false;
-=======
-            localStorageService.cookie.delete('user');
-            isLoggedIn = false;
->>>>>>> 5734f7e06221ed29d4fb010db00a5d4640c814f7
             CartService.initCart();
             service.user = {};
             service.lastLogin = {};
