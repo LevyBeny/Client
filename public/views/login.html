@@ -6,14 +6,16 @@
                 <label class="form-label">User Name:</label>
                 <input type="text" ng-model="loginCtrl.user.userName" ng-required="true" class="form-input" name="usernameInput" placeholder=" Enter User Name"
                     required>
-                <p ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="form-error">User Name Is Required</p>
+                <label ng-show="loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine" class="form-error">User Name Is Required</label>
+                <label ng-show="!(loginForm.usernameInput.$invalid && !loginForm.usernameInput.$pristine)" ></label>
 
             </div>
             <div class="form-line">
                 <label class="form-label">Password:</label>
                 <input type="password" ng-model="loginCtrl.user.password" ng-required="true" class="form-input" name="passwordInput" placeholder=" Enter Password"
                     required>
-                <p ng-show="loginForm.passwordInput.$invalid && !loginForm.passwordInput.$pristine" class="form-error">Password Is Required</p>
+                <label ng-show="loginForm.passwordInput.$invalid && !loginForm.passwordInput.$pristine" class="form-error">Password Is Required</label>
+                </br ng-show="!(loginForm.passwordInput.$invalid && !loginForm.passwordInput.$pristine)" >
             </div>
             <div class="form-line">
                 <input type="submit" class="form-button" value="Login" ng-disabled="loginForm.$invalid">

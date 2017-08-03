@@ -5,7 +5,7 @@ height: auto;
 .reg-form{
     position: absolute;
     display: block;
-    top: 35%;
+    top: 13em;
     left:50%;
    transform:translate(-50%,-15%);
    width: 100%;
@@ -18,8 +18,7 @@ height: auto;
 
 .reg-form-input{
     width: auto;
-    height:1.5em;
-        font-size:1.4em;
+    font-size:1.25em;
 }
 
 
@@ -44,7 +43,7 @@ height: auto;
 }
 
 .reg-form-label{
-font: 1.5em sans-serif;
+font: 1.25em sans-serif;
 }
 
 .reg-form-button{
@@ -69,7 +68,7 @@ box-shadow: 10px 10px 5px #888888;
 
 .reg-error{
     color: red;
-    font: 0.6em sans-serif;
+    font: 0.8em sans-serif;
     text-align: center;
 }
  .reg-td{

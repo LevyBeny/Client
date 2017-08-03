@@ -29,24 +29,21 @@
         <div id="div_menu">
             <div class="menu_divs">
                 <a id="button_men" class="menu_buttons" onclick="getMenWatch()">
-                    Men
+                    Home
                 </a>
             </div>
             <div class="menu_divs">
                 <a id="button_women" class="menu_buttons" onclick="getWomenWatch()">
-                    Women
+                    About
                 </a>
             </div>
             <div class="menu_divs">
                 <a id="button_brand" class="menu_buttons" onmouseover="showBrandsMenu(true)" onmouseleave="showBrandsMenu(false)">
-                    Shop By Brand
+                   Watch Collection
                 </a>
             </div>
 
         </div>
-    </div>
-
-    <div id="div_brandsMenu">
     </div>
 
     <div id="div_registerLogin">
@@ -56,11 +53,18 @@
             </label>
         </a>
 
-        <a id="ref_login" href="#/login" ng-show="!mainCtrl.UserService.isLoggedIn">
+        <a id="ref_login" href="/#/login" ng-show="!mainCtrl.UserService.isLoggedIn">
             <label>
                 Login
             </label>
         </a>
+
+        <a id="ref_login" href="/" ng-click="mainCtrl.UserService.logout()" ng-show="mainCtrl.UserService.isLoggedIn">
+            <label>
+                Logout
+            </label>
+        </a>
+
     </div>
     <div id="div_cart" >
         <a id="ref_cart" href="/#/cart" ng-show="mainCtrl.UserService.isLoggedIn">
