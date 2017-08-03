@@ -121,9 +121,9 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
             tosend.content[0] = self.user;
 
             var userQuestions = {};
-            userQuestions.q1_id = self.question1.questionID;
+            userQuestions.q1 = self.question1.questionID;
             userQuestions.ans1 = self.ans1;
-            userQuestions.q2_id = self.question2.questionID;
+            userQuestions.q2 = self.question2.questionID;
             userQuestions.ans2 = self.ans2;
             tosend.content[1] = userQuestions;
 
@@ -139,7 +139,10 @@ app.controller('registerController', ['DataService', "$window", "$location", "$h
                         $window.alert('Registration Completed Successfully.');
                         $location.path("/login");
                     }
-                    else {
+                    else if (response.data === "exists") {
+                        $window.alert('The user name you entered already exist! \n Please enter another.');
+                    }
+                    else{
                         $window.alert('Something went wrong...Please try again.');
                     }
                 })
