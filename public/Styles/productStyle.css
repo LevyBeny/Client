@@ -37,16 +37,16 @@
 }
 
 .product {
-  width:17%;
-  height:190px;
-  position:relative;
-  transition:.7s;
-  -webkit-transition:.7s;
-  background: white;
-  overflow: hidden;
-  display: inline-block;
-  border: 2px solid black;
-  border-radius: 15px;
+    width: 14em;
+    height: 190px;
+    position: relative;
+    transition: .7s;
+    -webkit-transition: .7s;
+    background: white;
+    overflow: hidden;
+    display: inline-block;
+    border: 2px solid black;
+    border-radius: 15px
 }
 
 .pic{

@@ -657,7 +657,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 //Products.html
 app.controller('productController', ['$http', 'ProductService', function ($http, ProductService) {
     var self = this;
-    self.sortBy = 'price';
+    self.sortBy ={ label:'price'};
     self.isReversed = false;
     self.searchFilter = "";
     self.sortOptions =

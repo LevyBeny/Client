@@ -1,4 +1,4 @@
-<div id="div_main" ng-controller="productController as productCtrl">
+<div id="div_main" style="display:flex" ng-controller="productController as productCtrl">
     <div id="allProductsView">
         <div id="div_filterBar">
             <div class="category_checkbox">
@@ -43,8 +43,8 @@
             <select ng-model="productCtrl.sortBy" ng-options="c as c.label for c in productCtrl.sortOptions">
             </select>
             <select ng-model="productCtrl.isReversed">
-            <option value=false>High to Low</option>
-            <option value=true>Low to High</option>
+            <option value='false'>High to Low</option>
+            <option value='true'>Low to High</option>
             </select>
 
         <div id="div_search">
@@ -52,8 +52,9 @@
             <input type="search" name="search" ng-model="productCtrl.searchFilter"/>
         </div>
         </div>
-        <div id="allProductsContainer">
-            <div ng-repeat="product in productCtrl.productService.products |filter:productCtrl.searchFilter| productFilter:productCtrl.productService.checkedCategories| orderBy:productCtrl.orderBy"
+        <div id="allProductsContainer" style="margin-left: 2em;">
+            <div ng-repeat="product in productCtrl.productService.products |filter:productCtrl.searchFilter| 
+            productFilter:productCtrl.productService.checkedCategories| orderBy:productCtrl.sortBy.label:productCtrl.isReversed "
                 class="product product-view">
                 <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
                 <div class="product-actions-view">
@@ -67,7 +68,10 @@
             </div>
         </div>
     </div>
-    <div id="recommendedProductsView" ng-show="productCtrl.productService.userService.isLoggedIn">
+    <div id="recommmendedProductsView" >
+        <div style="text-align:center;margin-top:2em">
+        <label style="font-weight: bold;font-size: 1.8em;">Just For You</label>
+        </div>
         <div ng-repeat="product in productCtrl.productService.userService.recommendedProducts" class="product product-view recommend-view">
             <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
             <div class="product-actions-view">
