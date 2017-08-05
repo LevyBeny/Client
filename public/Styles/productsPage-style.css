@@ -1,5 +1,14 @@
+#div_allProducts{
+    width:75%; 
+}
+
 .product-view{
     display:inline-block;
+}
+
+#div_filterBar{
+  border-top:1px solid brown;
+    border-bottom:1px solid brown;
 }
 
 .info-block-view {
@@ -24,5 +33,19 @@
 }
 
 .image-margin{
-    left:36%;
+    margin-left:1.5em;
+}
+
+.category_checkbox{
+  margin-left:10%;
+  display: inline-block;
+}
+
+#div_filterBar input,label{
+  font-size: 1em;
+}
+
+#div_sort{
+  margin-top:1%;
+  margin-left:10%;
 }

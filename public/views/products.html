@@ -1,14 +1,83 @@
 <div id="div_main" ng-controller="productController as productCtrl">
-    <div class="product_container">
-        <div ng-repeat="product in productCtrl.productService.products" class="product product-view">
-            <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
-            <div class="product-actions-view">
-                <div class="info-block-view">
-                    <div class="product-title">{{product.productName}}</div>
-                    <div class="product-description">{{product.brand}}</div>
-                    <div class="product-prize">Price:{{product.price}} NIS</div>
-                    <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.userService.isLoggedIn">Add To Cart</div>
+    <div id="div_allProducts">
+        <div id="div_filterBar">
+            <div class="category_checkbox">
+                <label for="men">Men </label>
+                <input type="checkbox" name="men" ng-model="productCtrl.productService.isCheckedCategories['men']" ng-change="productCtrl.productService.updateCategories('men')"
+                />
+                <label for="women">Women </label>
+                <input type="checkbox" name="women" ng-model="productCtrl.productService.isCheckedCategories['women']" ng-change="productCtrl.productService.updateCategories('women')"
+                />
+            </div>
+            <div class="category_checkbox">
+                <label for="metal">Metal </label>
+                <input type="checkbox" name="metal" ng-model="productCtrl.productService.isCheckedCategories['metal']" ng-change="productCtrl.productService.updateCategories('metal')"
+                />
+                <label for="leather">Leather </label>
+                <input type="checkbox" name="leather" ng-model="productCtrl.productService.isCheckedCategories['leather']" ng-change="productCtrl.productService.updateCategories('leather')"
+                />
+                <label for="plastic">Plastic </label>
+                <input type="checkbox" name="leather" ng-model="productCtrl.productService.isCheckedCategories['plastic']" ng-change="productCtrl.productService.updateCategories('plastic')"
+                />
+            </div>
+            <div class="category_checkbox">
+                <label for="elegant">Elegant </label>
+                <input type="checkbox" name="elegant" ng-model="productCtrl.productService.isCheckedCategories['elegant']" ng-change="productCtrl.productService.updateCategories('elegant')"
+                />
+                <label for="sport">Sport </label>
+                <input type="checkbox" name="sport" ng-model="productCtrl.productService.isCheckedCategories['sport']" ng-change="productCtrl.productService.updateCategories('sport')"
+                />
+            </div>
+            <div class="category_checkbox">
+                <label for="analog">Analog </label>
+                <input type="checkbox" name="analog" ng-model="productCtrl.productService.isCheckedCategories['analog']" ng-change="productCtrl.productService.updateCategories('analog')"
+                />
+                <label for="digital">digital </label>
+                <input type="checkbox" name="digital" ng-model="productCtrl.productService.isCheckedCategories['digital']" ng-change="productCtrl.productService.updateCategories('digital')"
+                />
+            </div>
+        </div>
+        <div id="div_sort">
+            <label>Sort By:</label>
+            <select ng-model="productCtrl.sortBy" ng-options="for c in productCtrl.sortCriterias">
+            </select>
+            <select ng-model="productCtrl.isReversed">
+            <option value=false>High to Low</option>
+            <option value=true>Low to High</option>
+            </select>
+        </div>
+
+        <div class="product_container">
+            <div ng-repeat="product in productCtrl.productService.products | productFilter:productCtrl.productService.checkedCategories| orderBy:productCtrl.orderBy"  class="product product-view">
+                <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
+                <div class="product-actions-view">
+                    <div class="info-block-view">
+                        <div class="product-title">{{product.productName}}</div>
+                        <div class="product-description">{{product.brand}}</div>
+                        <div class="product-prize">Price:{{product.price}} NIS</div>
+                        <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.userService.isLoggedIn">Add To Cart</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendArea" ng-show="!(productCtrl.userService.isLoggedIn)">
+            
+        </div>
+
+        <div id="recommendedProducts" class="recommendArea" ng-show="productCtrl.userService.isLoggedIn">
+            <div ng-repeat="product in productCtrl.productService.recommendedProducts" class="product product-view">
+                <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
+                <div class="product-actions-view">
+                    <div class="info-block-view">
+                        <div class="product-title">{{product.productName}}</div>
+                        <div class="product-description">{{product.brand}}</div>
+                        <div class="product-prize">Price:{{product.price}} NIS</div>
+                        <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.userService.isLoggedIn">Add To Cart</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- | productFilter:productCtrl.productService.checkedCategories -->
