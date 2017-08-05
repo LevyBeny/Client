@@ -140,6 +140,7 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
             localStorageService.cookie.remove('user');
             service.isLoggedIn = false;
             CartService.initCart();
+            service.recommendedProducts = [];
             service.user = {};
             service.lastLogin = {};
             $location.path("/");

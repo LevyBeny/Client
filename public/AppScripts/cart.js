@@ -147,7 +147,11 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             else {
                 tmpProduct.buyQuantity = 1;
                 tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
+<<<<<<< HEAD
                 service.cart[service.length]=tmpProduct;
+=======
+                service.cart[service.cart.length]=tmpProduct;
+>>>>>>> dfb03526f4944314706a8269069085a72c0b5ea7
             }
         }
         else {
