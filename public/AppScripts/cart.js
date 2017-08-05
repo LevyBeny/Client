@@ -147,7 +147,11 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             else {
                 tmpProduct.buyQuantity = 1;
                 tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
+<<<<<<< HEAD
                 service.cart.push(tmpProduct);
+=======
+                service.cart[service.length]=tmpProduct;
+>>>>>>> 090ab49ad69c27bd4bfd9915c88b3b991166bf0c
             }
         }
         else {
@@ -159,7 +163,11 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
                 service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
             }
         }
+<<<<<<< HEAD
         var prom = service.updateCart();
+=======
+        service.updateCart();
+>>>>>>> 090ab49ad69c27bd4bfd9915c88b3b991166bf0c
     }
     return service;
 }]);
