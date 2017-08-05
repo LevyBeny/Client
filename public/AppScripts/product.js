@@ -11,7 +11,9 @@ app.controller('productController', ['$http', 'ProductService', function ($http,
         ]
     self.productService = ProductService;
     self.productService.checkedCategories = [];
-
+    self.addToCart= function(product){
+        self.productService.addToCart(product);
+    }
 
 }]);
 
@@ -28,7 +30,7 @@ app.factory('ProductService', ['$http', 'CartService', 'UserService',
         service.isCheckedCategories = {};
 
         service.addToCart = function (product) {
-            cartService.addToCart(product);
+            service.cartService.addToCart(product);
         }
 
         $http.get('/product/getAllProducts').then(function (res1) {
