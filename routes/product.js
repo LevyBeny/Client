@@ -9,7 +9,7 @@ var DButilsAzure = require('./DBUtils');
 
 
 router.get('/getAllProducts', function (req, res) {
-    query = "SELECT * FROM products ;";
+    query = "SELECT * FROM products ORDER BY productID;";
     DButilsAzure.Select(query).then(function (result) {
         res.send(result);
     }).catch(function (err) {
@@ -33,6 +33,15 @@ router.post('/userCartProducts', function(req,res){
     }).catch(function(err){
         res.send(err);
     })
+});
+
+router.get('/getProductsCategories', function(req,res){
+    query="SELECT * FROM productsCategories ORDER BY productID";
+    DButilsAzure.Select(query).then(function(result){
+        res.send(result);
+    }).catch(function(err){
+        res.send("fail");
+    });
 });
 
 router.get('/getCategories', function (req, res) {

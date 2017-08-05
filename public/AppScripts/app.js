@@ -33,6 +33,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/products", {
             templateUrl: "./views/products.html"
+        })
+        .when("/about", {
+            templateUrl: "./views/about.html"
         });
 
 }]);
@@ -237,7 +240,30 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
         service.user = {};
         service.isLoggedIn = false;
         service.lastLogin = {};
+        service.recommendedProducts = [];
+
+        service.getRecommendedProducts = function () {
+            $http.get('/product/getRecommendedProductsByUsers/' + service.user.userName).then(function (res1) {
+                service.recommendedProducts = res1.data;
+                if (service.recommendedProducts.length < 5);
+                $http.get('/product/getRecommendedProductsByCategories/' + service.user.userName).then(function (res2) {
+                    var categoryRecommended = res2.data;
+                    for (var i = 0; i < categoryRecommended.length && service.recommendedProducts.length < 5; i++) {
+                        service.recommendedProducts.push(categoryRecommended[i]);
+                    }
+
+                }
+                    , function (err1) {
+                        window.alert("Something got wrong. Please refresh the page.");
+                    });
+            }
+                , function (err2) {
+                    window.alert("Something got wrong. Please refresh the page.");
+                });
+        }
         service.initUser = function () {
+            service.getRecommendedProducts();
+
             if (localStorageService.cookie.isSupported) {
                 var user = localStorageService.cookie.get('user');
                 if (user) {
@@ -519,10 +545,13 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         $http.post('/user/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
+<<<<<<< HEAD
                 service.quantity = [];
                 for (var i = 0; i < service.cart.length; i++) {
                     service.quantity[i] = service.cart[i].buyQuantity;
                 }
+=======
+>>>>>>> b020afd3e3ec658d5596f8d2724cc26752590ab5
                 window.alert("Cart was udpdated!");
             }
         }).catch(function (err) {
@@ -619,7 +648,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             }
             else {
                 service.cart[index].buyQuantity++;
-
                 service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
             }
         }
@@ -632,7 +660,17 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 //Products.html
 app.controller('productController', ['$http', 'ProductService', function ($http, ProductService) {
     var self = this;
+    self.sortBy = 'price';
+    self.isReversed = false;
+    self.searchFilter = "";
+    self.sortOptions =
+        [
+            { label: "price" }, { label: "brand" }
+        ]
     self.productService = ProductService;
+    self.productService.checkedCategories = [];
+
+
 }]);
 
 app.factory('ProductService', ['$http', 'CartService', 'UserService',
@@ -641,14 +679,99 @@ app.factory('ProductService', ['$http', 'CartService', 'UserService',
         service.products = [];
         service.userService = UserService;
         service.cartService = CartService;
+        var productsCategories = [];
+        service.checkedCategories = [];
+        var allCategories = [];
+        service.allCategories = [];
+        service.isCheckedCategories = {};
+
         service.addToCart = function (product) {
             cartService.addToCart(product);
         }
-        $http.get('/product/getAllProducts').then(function (res) {
-            service.products = res.data;
+
+        $http.get('/product/getAllProducts').then(function (res1) {
+            service.products = res1.data;
+            $http.get('/product/getProductsCategories').then(function (res2) {
+                productsCategories = res2.data;
+                var j = 0;
+                for (var i = 0; i < service.products.length; i++) {
+                    service.products[i].categories = [];
+                    while (j < productsCategories.length && productsCategories[j].productID == service.products[i].productID) {
+                        service.products[i].categories.push(productsCategories[j].categoryID);
+                        j++;
+                    }
+                }
+
+            }
+                , function (err1) {
+                    window.alert("Something got wrong. Please refresh the page.");
+                });
+        }
+            , function (err2) {
+                window.alert("Something got wrong. Please refresh the page.");
+            })
+
+
+        $http.get('/product/getCategories').then(function (res) {
+            allCategories = res.data;
+            for (var i = 0; i < allCategories.length; i++) {
+                service.allCategories[allCategories[i].categoryName] = allCategories[i].categoryID;
+            }
+
+            for (var i = 0; i < allCategories.length; i++) {
+                service.isCheckedCategories[allCategories[i].categoryName] = false;
+
+            }
         }
             , function (err) {
                 window.alert("Something got wrong. Please refresh the page.");
-            })
+            });
+
+        service.updateCategories = function (categoryName) {
+            if (service.isCheckedCategories[categoryName] == false) {
+                service.removeCategory(categoryName);
+            }
+            else {
+                service.addCategory(categoryName);
+            }
+        }
+
+        service.addCategory = function (categoryName) {
+            service.checkedCategories.push(service.allCategories[categoryName]);
+        }
+
+        service.removeCategory = function (categoryName) {
+            var index = service.checkedCategories.indexOf(service.allCategories[categoryName]);
+            service.checkedCategories.splice(index, 1);
+        }
+
         return service;
     }]);
+
+app.filter('productFilter', function () {
+    return function (products, filterCriterias) {
+        if (filterCriterias.length == 0)
+            return products;
+        var output = [];
+        var flag = false;
+        var containsCriteria = false;
+        for (var i = 0; i < products.length; i++) {
+            var currentProduct = products[i];
+            flag = false;
+            for (var l = 0; l < filterCriterias.length && !flag; l++) {
+                containsCriteria = false;
+                for (var j = 0; j < currentProduct.categories.length && !containsCriteria; j++) {
+                    if (currentProduct.categories[j] == filterCriterias[l]) {
+                        containsCriteria = true;
+                    }
+                }
+                if (containsCriteria == false) {
+                    break;
+                }
+                else if (l == filterCriterias.length - 1)
+                { output.push(currentProduct); }
+            }
+        }
+        return output;
+    }
+});
