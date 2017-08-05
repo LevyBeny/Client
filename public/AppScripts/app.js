@@ -545,13 +545,10 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         $http.post('/user/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
-<<<<<<< HEAD
                 service.quantity = [];
                 for (var i = 0; i < service.cart.length; i++) {
                     service.quantity[i] = service.cart[i].buyQuantity;
                 }
-=======
->>>>>>> b020afd3e3ec658d5596f8d2724cc26752590ab5
                 window.alert("Cart was udpdated!");
             }
         }).catch(function (err) {
