@@ -8,7 +8,7 @@ router.use(cors());
 var DButilsAzure = require('./DBUtils');
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-router.post('/purchase', function (req, res) {
+router.post('/logged/purchase', function (req, res) {
     var userName = req.body.content[0].userName;
     var currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     var purchaseDate = currentDate.split(' ')[0];
@@ -59,7 +59,7 @@ router.post('/purchase', function (req, res) {
     });
 });
 
-router.get('/getUserPurchases/:userName', function (req, res) {
+router.get('/logged/getUserPurchases/:userName', function (req, res) {
     var userName = req.params.userName;
     var purchaseQuery = "SELECT * FROM userPurchasedCarts WHERE userName = '" + userName + "'";
     DButilsAzure.Select(purchaseQuery).then(function (purchasRes) {
@@ -69,7 +69,7 @@ router.get('/getUserPurchases/:userName', function (req, res) {
     });
 });
 
-router.get('/getPurchasedProducts/:purchaseID', function (req, res) {
+router.get('/logged/getPurchasedProducts/:purchaseID', function (req, res) {
     var purchaseID = req.params.purchaseID;
     var purchaseQuery = "SELECT * FROM userPurchasedProducts WHERE purchaseID = " + purchaseID + "";
     DButilsAzure.Select(purchaseQuery).then(function (purchasRes) {

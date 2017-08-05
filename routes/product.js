@@ -121,7 +121,7 @@ router.get('/getProductsByColor/:color', function (req, res) {
     });
 });
 
-router.post('/addProduct', function (req, res) {
+router.post('/logged/addProduct', function (req, res) {
     var productName = req.body.content[0].productName;
     var currentDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
     var entranceDate = currentDate.split(' ')[0];
@@ -160,7 +160,7 @@ router.post('/addProduct', function (req, res) {
     });
 });
 
-router.post('/removeProduct', function (req, res) {
+router.post('/logged/removeProduct', function (req, res) {
     var productID = req.body.productID;
     var query = "DELETE FROM products WHERE productID= " + productID + " ;";
     DButilsAzure.Delete(query).then(function (delRes) {
@@ -170,7 +170,7 @@ router.post('/removeProduct', function (req, res) {
     });
 });
 
-router.get('/getRecommendedProductsByUsers/:userName', function (req, res) {
+router.get('/logged/getRecommendedProductsByUsers/:userName', function (req, res) {
     var userName = req.params.userName;
     var similarQuery = "SELECT TOP 1 userName,COUNT(DISTINCT productID) AS productCount FROM userPurchasedCarts INNER JOIN userPurchasedProducts ON userPurchasedCarts.purchaseID=userPurchasedProducts.purchaseID ";
     similarQuery += "WHERE productID IN(SELECT productID FROM userPurchasedProducts WHERE purchaseID ";
@@ -197,7 +197,7 @@ router.get('/getRecommendedProductsByUsers/:userName', function (req, res) {
     });
 });
 
-router.get('/getRecommendedProductsByCategories/:userName', function (req, res) {
+router.get('/logged/getRecommendedProductsByCategories/:userName', function (req, res) {
     var userName = req.params.userName;
     var catQuery = "SELECT categoryID from usersCategories WHERE userName ='" + userName + "' ;";
     DButilsAzure.Select(catQuery).then(function (catRes) {

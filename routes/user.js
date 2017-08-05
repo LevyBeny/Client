@@ -107,7 +107,7 @@ router.post('/login', function (req, res) {
     });
 });
 
-router.get('/getUserCart/:userName', function (req, res) {
+router.get('/logged/getUserCart/:userName', function (req, res) {
     var userName = req.params.userName;
     var query = "SELECT usersCurrentCart.quantity as buyQuantity, products.productID, products.productName, products.entranceDate, products.quantity, products.price, products.brand, products.color FROM usersCurrentCart INNER JOIN products ON usersCurrentCart.productID=products.productID WHERE userName = '" + userName + "' ;";
     DButilsAzure.Select(query).then(function (result) {
@@ -159,7 +159,7 @@ router.get('/getRestorePasswordQuestions/:userName', function (req, res) {
     });
 });
 
-router.post('/removeUser', function (req, res) {
+router.post('/logged/removeUser', function (req, res) {
     var userName = req.body.userName;
     query = "DELETE * FROM users WHERE userName = '" + userName + "';";
     DButilsAzure.Select(query).then(function (result) {
@@ -174,7 +174,7 @@ router.post('/removeUser', function (req, res) {
     });
 });
 
-router.post('/updateCart', function (req, res) {
+router.post('/logged/updateCart', function (req, res) {
     var userName = req.body.content[0].userName;
     var cart = [];
     for (var index = 0; index < req.body.content[1].length; index++) {

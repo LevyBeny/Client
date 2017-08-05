@@ -12,25 +12,25 @@ app.locals.token=0;
 app.locals.users={};
 
 
-// // All functions of logged sholud check if logged in
-// app.use('/logged/', function (req, res, next) {
-//   if(!checkLogin(req))
-//     res.send("login required")
-//   else
-//     next()
-// })
+// All functions of logged sholud check if logged in
+app.use('*/logged/*', function (req, res, next) {
+  if(!checkLogin(req))
+    res.send("login required");
+  else
+    next();
+})
 
-// function checkLogin(req) {
-//     var token = req.headers["my-token"];
-//     var userName = req.headers["userName"];
-//     if (!token || !userName)
-//         return false;
-//     var validToken = req.app.locals.users[userName];
-//     if (validToken == token)
-//         return true;
-//     else
-//         return false;
-// }
+function checkLogin(req) {
+    var token = req.headers["my-token"];
+    var userName = req.headers["userName"];
+    if (!token || !userName)
+        return false;
+    var validToken = req.app.locals.users[userName];
+    if (validToken == token)
+        return true;
+    else
+        return false;
+}
 
 //router requires
 var user = require("./routes/user");
