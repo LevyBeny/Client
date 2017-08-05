@@ -76,10 +76,10 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
         service.recommendedProducts = [];
 
         service.getRecommendedProducts = function () {
-            $http.get('/product/getRecommendedProductsByUsers/' + service.user.userName).then(function (res1) {
+            $http.get('/product/logged/getRecommendedProductsByUsers/' + service.user.userName).then(function (res1) {
                 service.recommendedProducts = res1.data;
                 if (service.recommendedProducts.length < 5);
-                $http.get('/product/getRecommendedProductsByCategories/' + service.user.userName).then(function (res2) {
+                $http.get('/product/logged/getRecommendedProductsByCategories/' + service.user.userName).then(function (res2) {
                     var categoryRecommended = res2.data;
                     for (var i = 0; i < categoryRecommended.length && service.recommendedProducts.length < 5; i++) {
                         service.recommendedProducts.push(categoryRecommended[i]);
@@ -95,8 +95,6 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
                 });
         }
         service.initUser = function () {
-            service.getRecommendedProducts();
-
             if (localStorageService.cookie.isSupported) {
                 var user = localStorageService.cookie.get('user');
                 if (user) {
@@ -104,13 +102,14 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
                     service.lastLogin = user.lastLogin;
                     $http.defaults.headers.common = {
                         'my-Token': user.token,
-                        'userName': user.userName
+                        'user': user.userName
                     };
                     service.isLoggedIn = true;
                     //update the cookie
                     var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
                     localStorageService.cookie.set('user', cookie);
                     CartService.getUserCart(service.user.userName);
+                    service.getRecommendedProducts();
                 }
             }
         };
@@ -122,8 +121,12 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
                         return Promise.resolve(response);
                     var token = response.data.token;
                     service.user = response.data.user;
+                    $http.defaults.headers.common = {
+                        'my-Token': token,
+                        'user': service.user.userName
+                    };
                     //update the cookie
-                    var cookie = { userName: user.userName, lastLogin: new Date(), token: user.token }
+                    var cookie = { userName: user.userName, lastLogin: new Date(), token: token }
                     localStorageService.cookie.set('user', cookie);
                     service.initUser();
                     return Promise.resolve(response);

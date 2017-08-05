@@ -57,7 +57,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             updatedCart.content[1][i].quantity = tmpProduct.buyQuantity;
         }
 
-        $http.post('/user/updateCart', updatedCart).then(function (result) {
+        $http.post('/user/logged/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
                 service.quantity = [];
                 for (var i = 0; i < service.cart.length; i++) {
@@ -73,7 +73,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
     service.getUserCart = function (userName) {
         service.userName = userName;
 
-        $http.get('/user/getUserCart/' + userName).then(function (userCartResult) {
+        $http.get('/user/logged/getUserCart/' + userName).then(function (userCartResult) {
             service.cart = userCartResult.data;
             service.calculateTotalPrices();
             service.calculateTotalSum();
@@ -120,7 +120,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             tmpProduct = product;
             tmpProduct.buyQuantity = quantity[index];
             tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
-            service.cart.push(tmpProduct);
+            service.cart[service.cart.length]=tmpProduct;
         }
         else {
             service.cart[index].buyQuantity = service.quantity[index];
