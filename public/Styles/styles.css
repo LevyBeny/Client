@@ -32,7 +32,8 @@ a{
 
 .title{
     position: absolute;
-font-family: 'Slabo 27px', serif;
+    font-size:10em;
+    font-family: 'Work Sans', sans-serif;
     color: black;
 }
 
