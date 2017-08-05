@@ -1,3 +1,7 @@
+#div_main{
+  display:block;
+}
+
 #div_allProducts{
     width:75%; 
 }
@@ -48,4 +52,34 @@
 #div_sort{
   margin-top:1%;
   margin-left:10%;
+}
+
+.recommend-view{
+  display:block;
+}
+
+
+#div_allProducts{
+  display: inline-block;
+}
+
+#lbl_sort{
+  border-bottom:  2px solid brown;
+}
+
+#allProductsView{
+  flex:1 3 75%;
+  order:1;
+  overflow: hidden;
+}
+
+#recommmendedProductsView{
+  flex:1 3 25%;
+  order:2;
+  overflow: hidden;
+}
+
+#div_search{
+  margin-left:2%;
+  display: inline-block;  
 }

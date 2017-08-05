@@ -23,6 +23,9 @@ app.config(['$routeProvider', function ($routeProvider) {
         })
         .when("/products", {
             templateUrl: "./views/products.html"
+        })
+        .when("/about", {
+            templateUrl: "./views/about.html"
         });
 
 }]);
@@ -227,7 +230,30 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
         service.user = {};
         service.isLoggedIn = false;
         service.lastLogin = {};
+        service.recommendedProducts = [];
+
+        service.getRecommendedProducts = function () {
+            $http.get('/product/getRecommendedProductsByUsers/' + service.user.userName).then(function (res1) {
+                service.recommendedProducts = res1.data;
+                if (service.recommendedProducts.length < 5);
+                $http.get('/product/getRecommendedProductsByCategories/' + service.user.userName).then(function (res2) {
+                    var categoryRecommended = res2.data;
+                    for (var i = 0; i < categoryRecommended.length && service.recommendedProducts.length < 5; i++) {
+                        service.recommendedProducts.push(categoryRecommended[i]);
+                    }
+
+                }
+                    , function (err1) {
+                        window.alert("Something got wrong. Please refresh the page.");
+                    });
+            }
+                , function (err2) {
+                    window.alert("Something got wrong. Please refresh the page.");
+                });
+        }
         service.initUser = function () {
+            service.getRecommendedProducts();
+
             if (localStorageService.cookie.isSupported) {
                 var user = localStorageService.cookie.get('user');
                 if (user) {
@@ -579,7 +605,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             }
             else {
                 service.cart[index].buyQuantity++;
-
                 service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
             }
         }
@@ -595,11 +620,14 @@ app.controller('productController', ['$http', 'ProductService', function ($http,
     var self = this;
     self.sortBy = 'price';
     self.isReversed = false;
-    self.sortOptions = [
-        "price", "brand"
-    ]
+    self.searchFilter = "";
+    self.sortOptions =
+        [
+            { label: "price" }, { label: "brand" }
+        ]
     self.productService = ProductService;
     self.productService.checkedCategories = [];
+
 
 }]);
 
@@ -614,9 +642,6 @@ app.factory('ProductService', ['$http', 'CartService', 'UserService',
         var allCategories = [];
         service.allCategories = [];
         service.isCheckedCategories = {};
-        service.recommendedProducts = [];
-
-        service.sortCriteries=["price","brand"];
 
         service.addToCart = function (product) {
             cartService.addToCart(product);
@@ -660,8 +685,6 @@ app.factory('ProductService', ['$http', 'CartService', 'UserService',
                 window.alert("Something got wrong. Please refresh the page.");
             });
 
-
-
         service.updateCategories = function (categoryName) {
             if (service.isCheckedCategories[categoryName] == false) {
                 service.removeCategory(categoryName);
@@ -678,29 +701,6 @@ app.factory('ProductService', ['$http', 'CartService', 'UserService',
         service.removeCategory = function (categoryName) {
             var index = service.checkedCategories.indexOf(service.allCategories[categoryName]);
             service.checkedCategories.splice(index, 1);
-        }
-
-        service.getRecommendedProducts = function () {
-            $http.get('/product/getRecommendedProductsByUsers/' + service.userService.user.userName).then(function (res1) {
-                service.recommendedProducts = res1.data;
-                if (service.recommendedProducts.length < 5);
-                $http.get('/product/getRecommendedProductsByCategories/' + service.userService.user.userName).then(function (res2) {
-                    var categoryRecommended = res2.data;
-                    for (var i = 0; i < categoryRecommended.length && service.recommendedProducts.length < 5; i++) {
-                        service.recommendedProducts.push(categoryRecommended[i]);
-                    }
-                    while (service.recommendedProducts.length < 5) {
-
-                    }
-
-                }
-                    , function (err1) {
-                        window.alert("Something got wrong. Please refresh the page.");
-                    });
-            }
-                , function (err2) {
-                    window.alert("Something got wrong. Please refresh the page.");
-                });
         }
 
         return service;

@@ -1,5 +1,5 @@
 <div id="div_main" ng-controller="productController as productCtrl">
-    <div id="div_allProducts">
+    <div id="allProductsView">
         <div id="div_filterBar">
             <div class="category_checkbox">
                 <label for="men">Men </label>
@@ -37,47 +37,51 @@
                 />
             </div>
         </div>
+
         <div id="div_sort">
-            <label>Sort By:</label>
-            <select ng-model="productCtrl.sortBy" ng-options="for c in productCtrl.sortCriterias">
+            <label id="lbl_sort">Sort By:</label>
+            <select ng-model="productCtrl.sortBy" ng-options="c as c.label for c in productCtrl.sortOptions">
             </select>
             <select ng-model="productCtrl.isReversed">
             <option value=false>High to Low</option>
             <option value=true>Low to High</option>
             </select>
-        </div>
 
-        <div class="product_container">
-            <div ng-repeat="product in productCtrl.productService.products | productFilter:productCtrl.productService.checkedCategories| orderBy:productCtrl.orderBy"  class="product product-view">
+        <div id="div_search">
+            <label for="search" id="lbl_search">Search:</label>
+            <input type="search" name="search" ng-model="productCtrl.searchFilter"/>
+        </div>
+        </div>
+        <div id="allProductsContainer">
+            <div ng-repeat="product in productCtrl.productService.products |filter:productCtrl.searchFilter| productFilter:productCtrl.productService.checkedCategories| orderBy:productCtrl.orderBy"
+                class="product product-view">
                 <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
                 <div class="product-actions-view">
                     <div class="info-block-view">
                         <div class="product-title">{{product.productName}}</div>
                         <div class="product-description">{{product.brand}}</div>
                         <div class="product-prize">Price:{{product.price}} NIS</div>
-                        <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.userService.isLoggedIn">Add To Cart</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="recommendArea" ng-show="!(productCtrl.userService.isLoggedIn)">
-            
-        </div>
-
-        <div id="recommendedProducts" class="recommendArea" ng-show="productCtrl.userService.isLoggedIn">
-            <div ng-repeat="product in productCtrl.productService.recommendedProducts" class="product product-view">
-                <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
-                <div class="product-actions-view">
-                    <div class="info-block-view">
-                        <div class="product-title">{{product.productName}}</div>
-                        <div class="product-description">{{product.brand}}</div>
-                        <div class="product-prize">Price:{{product.price}} NIS</div>
-                        <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.userService.isLoggedIn">Add To Cart</div>
+                        <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.productService.userService.isLoggedIn">Add To Cart</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div id="recommendedProductsView" ng-show="productCtrl.productService.userService.isLoggedIn">
+        <div ng-repeat="product in productCtrl.productService.userService.recommendedProducts" class="product product-view recommend-view">
+            <img ng-src="Resources/productsImg/{{product.productName}}.jpg" class="product-img grow .pic image-margin">
+            <div class="product-actions-view">
+                <div class="info-block-view">
+                    <div class="product-title">{{product.productName}}</div>
+                    <div class="product-description">{{product.brand}}</div>
+                    <div class="product-prize">Price:{{product.price}} NIS</div>
+                    <div class="add" ng-click="productCtrl.addToCart(product)" ng-show="productCtrl.productService.userService.isLoggedIn">Add To Cart</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <!-- | productFilter:productCtrl.productService.checkedCategories -->
+
+
+<!-- | productFilter:productCtrl.productService.checkedCategories -->

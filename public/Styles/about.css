@@ -1,0 +1,15 @@
+#div_about{
+    position:absolute;
+    left: 12.5%;
+    width:75%;
+    height:20em;
+    border:2px solid brown; 
+    margin: 0 auto;
+}
+
+#about_label{
+    font-family: 'Poppins', sans-serif;
+    font-size: 8em;
+    color:black;
+    
+}
