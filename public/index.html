@@ -7,6 +7,7 @@
     <script type="text/javascript" src="Scripts/angular-route.js"></script>
     <script type="text/javascript" src="Scripts/angular-messages.js"></script>
     <script type="text/javascript" src="Scripts/angular-local-storage.min.js"></script>
+    <script type="text/javascript" src="Scripts/ngDialog.min.js"></script>
 
     <script type="text/javascript" src="AppScripts/app.js"></script>
 
@@ -15,29 +16,29 @@
     <link rel="stylesheet" type="text/css" href="Styles/form-style.css" />
     <link rel="stylesheet" type="text/css" href="Styles/register-style.css" />
     <link rel="stylesheet" type="text/css" href="Styles/productStyle.css" />
-<<<<<<< HEAD
-=======
     <link rel="stylesheet" type="text/css" href="Styles/productsPage-Style.css" />
->>>>>>> 5734f7e06221ed29d4fb010db00a5d4640c814f7
     <link rel="stylesheet" type="text/css" href="Styles/cart_style.css" />
+    <link rel="stylesheet" type="text/css" href="Styles/ngDialog-theme-default.min.css" />
+    <link rel="stylesheet" type="text/css" href="Styles/ngDialog.min.css" />
 
 </head>
 
 <body>
-<<<<<<< HEAD
     <div id="div_navbar" ng-controller="mainController as mainCtrl">
         <label id="lbl_title1" class="title">Time To Watch </label>
+        <div class="helloDiv" ng-show="!mainCtrl.UserService.isLoggedIn">
+            <label class=hello_lbl>Hello Guset..</label>
+        </div>
+        <div class="helloDiv" ng-show="mainCtrl.UserService.isLoggedIn">
+            <label class=hello_lbl>Hello {{mainCtrl.UserService.user.userName}},</label>
+            </br>
+            <label class=hello_lbl>Last Login: {{mainCtrl.UserService.lastLogin | date:"medium"}}</label>
+        </div>
         <div id="div_menu">
+            <a href="/" class="menu_buttons">Home</a>
+            <a href="" class="menu_buttons"> About</a>
+            <a id="button_brand" href="/#/products" class="menu_buttons">Watches</a>
 
-            <div class="menu_divs">
-                <a id="button_men" class="menu_buttons">Home</a>
-            </div>
-            <div class="menu_divs">
-                <a href="" id="button_women" class="menu_buttons"> About</a>
-            </div>
-            <div class="menu_divs">
-                <a id="button_brand" class="menu_buttons">Watch Collection</a>
-            </div>
         </div>
 
         <div id="div_registerLogin">
@@ -66,62 +67,6 @@
     </div>
     <div id="div_mainView" ng-view>
     </div>
-=======
-    <div ng-controller="mainController as mainCtrl">
-        <div id="div_navbar">
-            <label id="lbl_title1" class="title">
-            Time To Watch
-        </label>
-            <div id="div_menu">
-                <div class="menu_divs">
-                    <a id="button_men" class="menu_buttons" onclick="getMenWatch()">
-                    Home
-                </a>
-                </div>
-                <div class="menu_divs">
-                    <a id="button_women" class="menu_buttons" href="/#/products">
-                    Watch Collection
-                </a>
-                </div>
-                <div class="menu_divs">
-                    <a id="button_brand" class="menu_buttons">
-                   Watch Collection
-                </a>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="div_registerLogin">
-            <a id="ref_register" href="/#/register">
-            <label>
-                Register
-            </label>
-        </a>
-
-            <a id="ref_login" href="/#/login" ng-show="!mainCtrl.UserService.isLoggedIn">
-            <label>
-                Login
-            </label>
-        </a>
-
-            <a id="ref_login" href="/" ng-click="mainCtrl.UserService.logout()" ng-show="mainCtrl.UserService.isLoggedIn">
-            <label>
-                Logout
-            </label>
-        </a>
-
-        </div>
-        <div id="div_cart">
-            <a id="ref_cart" href="/#/cart" ng-show="mainCtrl.UserService.isLoggedIn">
-            <img border="0" src="Resources/cart.png" width="50" height="50">
-        </a>
-        </div>
-    </div>
-
-    <div id="div_mainView" ng-view>
-    </div>
->>>>>>> 5734f7e06221ed29d4fb010db00a5d4640c814f7
 
 
     <footer>
