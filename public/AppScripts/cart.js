@@ -126,8 +126,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             service.cart[index].buyQuantity = service.quantity[index];
             service.cart[index].totalPrice = service.cart[index].buyQuantity * service.cart[index].price;
         }
-
-
         service.updateCart();
 
     }
