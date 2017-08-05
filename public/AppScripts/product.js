@@ -2,12 +2,16 @@
 //Products.html
 app.controller('productController', ['$http', 'ProductService', function ($http, ProductService) {
     var self = this;
-    self.sortBy ={ label:'price'};
-    self.isReversed = false;
+    self.sortBy = { label: 'price' };
+    self.isReversed = { value: false };
     self.searchFilter = "";
     self.sortOptions =
         [
             { label: "price" }, { label: "brand" }
+        ]
+    self.sortFunctions =
+        [
+            { label: "Low To High", value: false }, { label: "High To Low", value: true }
         ]
     self.productService = ProductService;
     self.productService.checkedCategories = [];
