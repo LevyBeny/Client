@@ -14,15 +14,15 @@
       border-bottom: 1px solid brown;
       border-top: 1px solid brown;
       content: '';
-      position: relative;
       top: 0.5em;
       width: 45%;
       letter-spacing: 3px;
       position: relative; 
-            left: 400px;
-    font: 1.4em sans-serif;
-    margin-top: 30px;
-    text-align: center;
+      left: 12.5em;
+      font: 1.4em sans-serif;
+      font-weight: bold;
+      margin-top: 30px;
+      text-align: center;
     }
 
 .product-img {

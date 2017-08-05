@@ -4,6 +4,7 @@
     text-align: center;
 font-family: 'Poppins', sans-serif;
 border-collapse: collapse;
+margin-top: 3em;
 }
 
 #cart-middle{
@@ -21,7 +22,7 @@ border-collapse: collapse;
 
 #cart_container td{ 
     width: 12em;
-    height: 11em;
+    height: 7.5em;
     margin:0;
     padding: 0;
     border:0;
@@ -48,9 +49,13 @@ border-collapse: collapse;
 
 #cart_table tr:nth-child(odd) {background-color: white}
 
+.cart_quantity{
+    width: 3em;
+}
 
 #cart_table{
     border-collapse: collapse;
+    border: 3px solid brown;
 }
 
 .remove_button{
@@ -101,6 +106,41 @@ border-collapse: collapse;
 }
 
 #buy_button{
-    font-size: 1.5em;
-    padding:0.5em;
+    font-family: 'Work Sans', sans-serif;
+    position: relative;
+    font: 1.5em sans-serif;
+    border-radius: 10px;
+    padding: 0.3em 0.6em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    background-color: rgb(169, 54, 54);
+    color: white;
+}
+
+.DialogImg{
+    width: 200px;
+    height: 200px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.DialogDiv{
+    display: inline-block;
+}
+
+.DialogInfo{
+    position: absolute;
+    top: 20%;
+    left: 250px;
+}
+
+.DialogHeader{
+    font-weight: bold;
+
+}
+
+
+.ngdialog-content{
+    border: 2px solid black;
+    box-shadow: 10px 10px 5px #888888;
 }

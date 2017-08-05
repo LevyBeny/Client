@@ -1,5 +1,5 @@
 #div_register{
-height: auto;
+    height: auto;
 }
 
 .reg-form{
@@ -12,7 +12,7 @@ height: auto;
 }
 
 #registerForm{
-    width: 80%;
+    width: 65%;
     margin: 0 auto;
 }
 
@@ -40,6 +40,7 @@ height: auto;
     margin-bottom: 2%;
     text-align: center;
     font: 1.6em sans-serif;
+    font-weight: bold
 }
 
 .reg-form-label{
@@ -47,12 +48,17 @@ font: 1.25em sans-serif;
 }
 
 .reg-form-button{
-font: 1.8em sans-serif;
-border-radius: 10px;
-width: 15%;
-margin-bottom: 5%;
-position: relative;
-left: 40%;
+    font-family: 'Work Sans', sans-serif;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    font: 1.5em sans-serif;
+    border-radius: 10px;
+    padding: 0.3em 0.6em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    background-color: rgb(169, 54, 54);
+    color: white;
 }
 
 
@@ -63,7 +69,7 @@ left: 40%;
     border-radius: 10px;
     width: 100%;
     margin-bottom: 5%;
-box-shadow: 10px 10px 5px #888888;
+    box-shadow: 10px 10px 5px #888888;
 }
 
 .reg-error{

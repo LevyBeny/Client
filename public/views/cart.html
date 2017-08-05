@@ -9,7 +9,8 @@
                 <th>Unit Price</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
-                <th>Remove from cart</th>
+                <th>More Details</th>
+                <th>Remove</th>
             </tr>
             <tr class="cartProduct" ng-repeat="product in cartCtrl.cartService.cart">
                 <div class="cart_td">
@@ -18,21 +19,27 @@
                     <td>{{product.color}}</td>
                     <td>{{product.price}}</td>
                     <td>
-                        <input type="number" placeholder={{product.buyQuantity}} ng-model="cartCtrl.cartService.quantity[$index]" min=1 max=15/>
+                        <input type="number" placeholder={{product.buyQuantity}} class="cart_quantity" ng-model="cartCtrl.cartService.quantity[$index]"
+                            min=1 onkeydown="return false"/>
                         </br>
                         <input id="update_quantity" type=button value="Update Quantity" ng-click="cartCtrl.cartService.setProductQuantity(product)"
                         />
                     </td>
                     <td>{{product.price*product.buyQuantity}} NIS</td>
+                    <td><input type="submit" class="moreDetalis_button" value="More Details" ng-click="cartCtrl.moreDetails(cartCtrl.cartService.cart[$index])"
+                        /></td>
                     <td><input type="submit" class="remove_button" value="" ng-click="cartCtrl.cartService.removeFromCart($index)"
                         /></br>
                     </td>
                 </div>
             </tr>
         </table>
+        </br>
         <div class="cart-sum" ng-show="cartCtrl.cartService.cart.length!=0">
             <label> Total Amount : {{cartCtrl.cartService.cart.totalSum}} NIS</label>
-            <button id="buy_button"> Buy Now </button>
         </div>
+        </br>
+        <button id="buy_button" ng-show="cartCtrl.cartService.cart.length!=0"> Buy Now </button>
+
     </div>
 </div>

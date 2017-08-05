@@ -1,4 +1,14 @@
-﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule']);
+﻿var app = angular.module('ShopModule', ['ngRoute', 'ngMessages', 'LocalStorageModule', 'ngDialog']);
+
+
+app.config(['ngDialogProvider', function (ngDialogProvider) {
+    ngDialogProvider.setDefaults({
+        className: 'ngdialog-theme-default',
+        plain: true,
+        closeByDocument: true,
+        closeByEscape: true
+    });
+}]);
 
 app.config(['$locationProvider', function ($locationProvider) {
     $locationProvider.hashPrefix('');
@@ -259,7 +269,6 @@ app.factory('UserService', ['$http', 'CartService', 'localStorageService', '$loc
                 if (user) {
                     service.user.userName = user.userName;
                     service.lastLogin = user.lastLogin;
-
                     $http.defaults.headers.common = {
                         'my-Token': user.token,
                         'userName': user.userName
@@ -475,10 +484,25 @@ app.directive('letterspaceOnly', function () {
     };
 });
 
-app.controller('cartController', ["$http", "$window", "CartService",
-    function ($http, $window, CartService) {
+app.controller('cartController', ["$http", "$window", "CartService", "ngDialog",
+    function ($http, $window, CartService, ngDialog) {
         var self = this;
         self.cartService = CartService;
+        self.htmlDialog = '<div class="DialogDiv"><img ng-src="Resources/productsImg/{{ngDialogData.productName}}.jpg" class="DialogImg"/> '
+            + '<div class="DialogInfo"> <label class="DialogHeader">Model:</label> <label class="DialoglText">{{ngDialogData.productName}}</label>  <br/>  '
+            + ' <label class="DialogHeader">Brand:</label> <label class="DialogText">{{ngDialogData.brand}}</label>  <br/>  '
+            + ' <label class="DialogHeader">Color: </label> <label class="DialogText">{{ngDialogData.color}}</label> <br/>'
+            + ' <label class="DialogHeader">Price: </label> <label class="DialogText"> {{ngDialogData.price}} NIS </label>  <br/>'
+            + ' <label class="DialogHeader">Current Stock: </label> <label class="DialogText"> {{ngDialogData.quantity}} </label>  <br/></div></div>'
+        self.moreDetails = function (product) {
+            ngDialog.open({
+                template: self.htmlDialog,
+                className: 'ngdialog-theme-default',
+                data: product,
+                showClose: true,
+                width: 480
+            });
+        };
     }]);
 
 app.factory('CartService', ['$http', '$window', function ($http, $window) {
@@ -489,6 +513,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
     service.initCart = function () {
         service.cart = [];
+        service.userName = "";
     }
 
     service.removeFromCart = function (index) {
@@ -520,6 +545,10 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
 
         $http.post('/user/updateCart', updatedCart).then(function (result) {
             if (result.data === "success") {
+                service.quantity = [];
+                for (var i = 0; i < service.cart.length; i++) {
+                    service.quantity[i] = service.cart[i].buyQuantity;
+                }
                 window.alert("Cart was udpdated!");
             }
         }).catch(function (err) {
@@ -534,6 +563,10 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             service.cart = userCartResult.data;
             service.calculateTotalPrices();
             service.calculateTotalSum();
+            service.quantity = [];
+            for (var i = 0; i < service.cart.length; i++) {
+                service.quantity[i] = service.cart[i].buyQuantity;
+            }
         },
             function (error) {
                 window.alert("Something went wrong with your cart, please try again.");
@@ -553,6 +586,13 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
     service.setProductQuantity = function (product) {
         var index = service.getProductIndex(product);
         var tmpProduct = {};
+        if (service.quantity[index] == "") {
+            service.quantity[index] = product.buyQuantity;
+            return;
+        }
+        if (service.quantity[index] == product.buyQuantity) {
+            return;
+        }
         if (product.quantity == 0) {
             window.alert("Product currently out of stock!")
             return;
@@ -609,7 +649,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             }
         }
         var prom = service.updateCart();
-        window.alert("Added to cart succesfully!");
     }
     return service;
 }]);
