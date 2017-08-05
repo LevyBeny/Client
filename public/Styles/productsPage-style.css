@@ -11,8 +11,8 @@
 }
 
 #div_filterBar{
-  border-top:1px solid brown;
-    border-bottom:1px solid brown;
+  border:1px solid brown;
+  margin-left: 3px;
 }
 
 .info-block-view {
