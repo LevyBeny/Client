@@ -2,13 +2,43 @@
     position:absolute;
     left: 12.5%;
     width:75%;
-    height:20em;
-    border:2px solid brown; 
+    height:75%;
+    height:auto;
+    border-radius: 20px;
+    border:2px dotted brown; 
     margin: 0 auto;
 }
 
 #about_label{
     font-family: 'Poppins', sans-serif;
-    font-size: 8em;
+    font-size: 4.2em;
+    position:absolute;
+    border-bottom:solid 2px brown;
+    border-top:solid 2px brown;
+    letter-spacing: 0.3em;
+    padding:0px;
+    left:50%;
+    top:3%;
+    transform: translateX(-50%);
     color:black;
+}
+
+#about_paragraph{
+    position:relative;
+    margin:5%;
+    margin-top:12%;
+    font-family: 'Work Sans', sans-serif;
+}
+
+#about_paragraph names{
+    font-size: 24px; 
+}
+
+#about_paragraph h2{
+    font-family: 'Work Sans', sans-serif;
+    text-decoration: underline;
+}
+
+#about_paragraph hello{
+    font-size:18px;
 }
