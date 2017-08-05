@@ -63,7 +63,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
                 for (var i = 0; i < service.cart.length; i++) {
                     service.quantity[i] = service.cart[i].buyQuantity;
                 }
-                window.alert("Cart was udpdated!");
+                window.alert("Cart was updated!");
             }
         }).catch(function (err) {
             window.alert("Something went wrong... please try again!")
@@ -127,7 +127,6 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             service.cart[index].totalPrice = service.cart[index].buyQuantity * service.cart[index].price;
         }
         service.updateCart();
-
     }
 
     service.calculateTotalPrices = function () {
