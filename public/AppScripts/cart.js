@@ -148,7 +148,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
             else {
                 tmpProduct.buyQuantity = 1;
                 tmpProduct.totalPrice = tmpProduct.buyQuantity * tmpProduct.price;
-                service.cart.push(tmpProduct);
+                service.cart[service.length]=tmpProduct;
             }
         }
         else {
@@ -160,7 +160,7 @@ app.factory('CartService', ['$http', '$window', function ($http, $window) {
                 service.cart[index].totalPrice = service.cart[index].price * service.cart[index].buyQuantity;
             }
         }
-        var prom = service.updateCart();
+        service.updateCart();
     }
     return service;
 }]);
