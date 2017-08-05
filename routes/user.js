@@ -86,15 +86,15 @@ router.post('/login', function (req, res) {
         if (result.length == 1) {
             if (res.app.locals.users.hasOwnProperty(userName)) {
                 toSend = {};
-                toSend.token = res.app.locals.users[userName];
+                toSend.token = req.app.locals.users[userName];
                 toSend.user = result[0];
                 res.send(toSend);
                 return;
             }
-            var token = res.app.locals.token;
-            res.app.locals.token++;
-            res.app.locals.users[userName] = token;
-            toSend = {};
+            var token = req.app.locals.token;
+            req.app.locals.token++;
+            req.app.locals.users[userName] = token;
+            var toSend = {};
             toSend.token = token;
             toSend.user = result[0];
             res.send(toSend);
