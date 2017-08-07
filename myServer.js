@@ -22,7 +22,7 @@ app.use('*/logged/*', function (req, res, next) {
 
 function checkLogin(req) {
     var token = req.headers["my-token"];
-    var userName = req.headers["user"];
+    var userName = req.headers["user-name"];
     if (!token || !userName)
         return false;
     var validToken = req.app.locals.users[userName];
